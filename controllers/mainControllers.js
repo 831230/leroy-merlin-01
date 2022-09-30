@@ -1,6 +1,7 @@
 // Load modules
 const authorizedUsersModel = require('../models/authorizedUsersModels');
 const registeredUsersModel = require('../models/registeredUsersModels');
+const sessionstorage =require('sessionstorage');
 
 // Main controller
 function main_index (request, response) {
@@ -22,7 +23,9 @@ registeredUsersModel.verifyUser(login,password, (result) => {
     
     console.log('Jupiiii user.');
     response.redirect('/home');
-    // sessionStorage.setItem('loggedUser',login);
+    sessionstorage.setItem('loggedUser',login);
+    let tempStorage=sessionstorage.getItem('loggedUser');
+    console.log(tempStorage)
   }else{
     console.log('Brak')
     response.redirect('/');
