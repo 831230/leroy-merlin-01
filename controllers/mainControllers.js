@@ -19,7 +19,10 @@ const password=request.body.password;
 registeredUsersModel.verifyUser(login,password, (result) => {
   
   if(result.length>0){
-      console.log('Jupiiii user.')
+    
+    console.log('Jupiiii user.');
+    response.redirect('/home');
+    // sessionStorage.setItem('loggedUser',login);
   }else{
     console.log('Brak')
     response.redirect('/');
