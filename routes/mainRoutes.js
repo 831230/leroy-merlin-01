@@ -23,6 +23,7 @@ router.post('/login',mainController.login_post)
 router.post('/register',mainController.register_post)
 
 router.post('/home',mainController.login_post)
+router.post('/home',mainController.driverRoutes_post)
 
 // Export router
 module.exports = router;
