@@ -2,7 +2,6 @@
 const authorizedUsersModel = require('../models/authorizedUsersModels');
 const registeredUsersModel = require('../models/registeredUsersModels');
 const driverRoutesModel = require('../models/driverRoutesModels');
-const sessionstorage =require('sessionstorage');
 
 // Main controller
 function main_index (request, response) {
@@ -24,9 +23,14 @@ registeredUsersModel.verifyUser(login,password, (result) => {
     
     console.log('Jupiiii user.');
     response.redirect('/home');
-    sessionstorage.setItem('loggedUser',login);
-    let tempStorage=sessionstorage.getItem('loggedUser');
-    console.log(tempStorage)
+    request.session.login=login;
+    request.session.loggedIn = true;
+    request.session.userId=result[0].user_id;
+    console.log(result);
+    console.log(request.session);
+    //sessionstorage['loggedUser'] = login;
+    // let tempStorage=sessionstorage.getItem('loggedUser');
+    // console.log(tempStorage)
   }else{
     console.log('Brak')
     response.redirect('/');
@@ -48,10 +52,10 @@ authorizedUsersModel.verifyUser(name.toLowerCase(),surname.toLowerCase(), (resul
     response.redirect('/');
   }
   });
-}
+} 
 
 function driverRoutes_post (request,response){
-  const user_id=5, start=request.body.start, end=request.body.end, data="request.body.dataRoute", departure_time_zone1=request.body.departureTimeZone1, departure_time_zone2=request.body.departureTimeZone2, departure_time_zone3=request.body.departureTimeZone3, places_in_car=request.body.placesInCar, remaning_space_in_car=4, price_zone1=request.body.priceZone1, price_zone2=request.body.priceZone2, price_zone3=request.body.priceZone3, places_on_route=request.body.placesOnRoute, contact_to_driver=request.body.contactToDriver, driver_comment=request.body.driverComment;
+  const user_id=5, start=request.body.start, end=request.body.end, data=request.body.dataRoute, departure_time_zone1=request.body.departureTimeZone1, departure_time_zone2=request.body.departureTimeZone2, departure_time_zone3=request.body.departureTimeZone3, places_in_car=request.body.placesInCar, remaning_space_in_car=4, price_zone1=request.body.priceZone1, price_zone2=request.body.priceZone2, price_zone3=request.body.priceZone3, places_on_route=request.body.placesOnRoute, contact_to_driver=request.body.contactToDriver, driver_comment=request.body.driverComment;
   driverRoutesModel.createRoute(user_id,start,end,data,departure_time_zone1,departure_time_zone2,departure_time_zone3,places_in_car,remaning_space_in_car,price_zone1,price_zone2,price_zone3,places_on_route,contact_to_driver,driver_comment, (result) => {
     console.log('Route added')
     response.redirect('/home');
