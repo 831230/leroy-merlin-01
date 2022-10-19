@@ -29,8 +29,8 @@ const createRoute = (
   });
 };
 
-const getRoutes = (callback) => {
-  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0`;
+const getRoutes = (user_id,callback) => {
+  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0 AND route_id not in (SELECT route_id FROM my_submited_routes WHERE user_id = ${user_id})`;
   database.appDatabase.all(sql, [], (error, rows) => {
     if (error) {
       console.error(error.message);
@@ -41,6 +41,16 @@ const getRoutes = (callback) => {
 
 const getMyRoutes = (user_id, callback) => {
   const sql = `SELECT * FROM driver_routes WHERE user_id = ${user_id}`;
+  database.appDatabase.all(sql, [], (error, rows) => {
+    if (error) {
+      console.error(error.message);
+    }
+    callback(rows);
+  });
+};
+
+const getMyRide = (user_id, callback) => {
+  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0 AND route_id in (SELECT route_id FROM my_submited_routes WHERE user_id = ${user_id})`;
   database.appDatabase.all(sql, [], (error, rows) => {
     if (error) {
       console.error(error.message);
@@ -78,4 +88,5 @@ module.exports = {
   getRoute,
   takePlaceInCar,
   getMyRoutes,
+  getMyRide
 };

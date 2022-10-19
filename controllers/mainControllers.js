@@ -62,10 +62,18 @@ function driverRoutes_post (request,response){
   });
 }
 
+function logout_get(request,response){
+  console.log(request.session.cookie);
+  request.session.destroy((err)=>{})
+  console.log("Po usuwaniu: "+request.session);
+  response.redirect('/');
+}
+
 // Export controllers
 module.exports = {
     main_index,
     login_post,
     register_post,
-    driverRoutes_post
+    driverRoutes_post,
+    logout_get
   };

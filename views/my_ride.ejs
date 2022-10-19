@@ -1,0 +1,32 @@
+<%- include('header') %> 
+
+<div class="container">
+  <h2 class="mt-5 mb-3">Moje ride...</h2>
+    <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Start</th>
+        <th scope="col">Stop</th>
+        <th class="d-print-none">
+          Akcja
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const ride of my_ride) { %>
+      <tr>
+        <td><%= ride.start %></td>
+        <td><%= ride.end %></td>
+        <td class="d-print-none">
+          <a class="btn btn-sm btn-warning" href="/routes/join/<%= ride.route_id %>">Dołącz do trasy.</a>
+          <!-- <a class="btn btn-sm btn-danger" href="/routes/delete/<%= ride.route_id %>">Delete</a> -->
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+
+
+<%- include('footer') %> 
