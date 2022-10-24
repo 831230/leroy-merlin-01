@@ -4,13 +4,13 @@
 
 .footer .container {
     padding: 30px;
-    min-height: 120px;
+    min-height: 100px;
     background-image: linear-gradient(
-        rgba(47, 48, 58, 0.5),
-        rgba(47, 48, 58, 0.5)),
+        rgba(47, 48, 58, 0.7),
+        rgba(47, 48, 58, 0.7)),
         url(../images/bc_them480.jpg);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: auto;
     background-position: center;
 }
 
@@ -23,7 +23,7 @@
             rgba(47, 48, 58, 0.5)),
             url(../images/bc_them960@2x.jpg);
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: auto;
         background-position: center;
     }
 }
