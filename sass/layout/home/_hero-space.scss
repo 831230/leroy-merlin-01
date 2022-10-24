@@ -1,5 +1,7 @@
 .hero {
   background-color: $thirdly-color;
+  border-top: 1px solid $main-color;
+  // border-bottom: 1px solid $main-color;
 }
 
 .hero .container {

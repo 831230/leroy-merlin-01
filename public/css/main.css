@@ -249,6 +249,22 @@ button {
   min-height: 60px;
 }
 
+.go-back {
+  background-color: black;
+  border-top: 1px solid #78BE20;
+}
+
+.go-back__link {
+  color: white;
+  font-size: 12px;
+  letter-spacing: 2px;
+  transition: all 500ms;
+}
+
+.go-back__link:hover, .go-back__link:focus {
+  color: #78BE20;
+}
+
 .choose-action {
   position: absolute;
   left: 50%;
@@ -376,6 +392,7 @@ button {
 
 .hero {
   background-color: black;
+  border-top: 1px solid #78BE20;
 }
 
 .hero .container {
@@ -728,8 +745,13 @@ button {
   justify-content: space-between;
 }
 
+.reported-routes__record-btn-title {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .button-small--toggle-view {
-  width: 160px;
+  width: 180px;
   background-color: transparent;
   box-shadow: none;
 }

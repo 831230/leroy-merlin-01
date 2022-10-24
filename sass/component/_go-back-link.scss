@@ -1,0 +1,15 @@
+.go-back {
+  background-color: $thirdly-color;
+  border-top: 1px solid $main-color;
+}
+
+.go-back__link {
+  color: $secondary-color;
+  font-size: 12px;
+  letter-spacing: 2px;
+  transition: all 500ms;
+    &:hover,
+    &:focus {
+      color: $main-color;
+    }
+}

@@ -33,8 +33,13 @@
   justify-content: space-between;
 }
 
+.reported-routes__record-btn-title {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .button-small--toggle-view {
-  width: 160px;
+  width: 180px;
   background-color: transparent;
   box-shadow: none;
   &:hover,

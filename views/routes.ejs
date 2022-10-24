@@ -1,31 +1,22 @@
 <%- include('header') %> 
 
-<div class="container">
-  <h2 class="mt-5 mb-3">Wszystkie trasy...</h2>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Start</th>
-        <th scope="col">Stop</th>
-        <th class="d-print-none">
-          Akcja
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% for (const route of routes) { %>
-      <tr>
-        <td><%= route.start %></td>
-        <td><%= route.end %></td>
-        <td class="d-print-none">
-          <a class="btn btn-sm btn-warning" href="/routes/join/<%= route.route_id %>">Dołącz do trasy.</a>
-          <!-- <a class="btn btn-sm btn-danger" href="/routes/delete/<%= route.route_id %>">Delete</a> -->
-        </td>
-      </tr>
-      <% } %>
-    </tbody>
-  </table>
-</div>
+<section class="login-support">
+  <div class="container">
+    <div class="login-support__space">
+      <div class="login-support__welcome">
+        <span class="login-support__hello">Witaj&#44; jesteś zalogowany jako&#58;</span>
+        <span class="login-support__login">tomasz.bielecki</span>
+      </div>
+      <a href="/logout" class="login-support__btn"><span class="login-support__title">Wyloguj</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="go-back">
+  <div class="container">
+    <a href="./home" class="go-back__link">&#8810; Wstecz</a>
+  </div>
+</section>
 
 <main class="main">
 
@@ -118,10 +109,11 @@
                 </li>
               </ul>
             </ul>
-            <button class="reported-routes__record-btn-join button-small visually-hidden"> <!--TOGGLE HIDDEN-->
-              <a class="btn btn-sm btn-warning" href="/routes/join/<%= route.route_id %>">Dołącz do trasy.</a>
-            </button>
-
+            <!-- <button class="reported-routes__record-btn-join button-small visually-hidden"> TOGGLE HIDDEN
+            </button> -->
+            <a class="reported-routes__record-btn-join button-small visually-hidden" href="/routes/join/<%= route.route_id %>">
+              <span class="reported-routes__record-btn-title btn-small-title">Dołącz jako pasażer</span>
+            </a>
           </div>
           <div class="reported-routes__record-buttons-space">
             <button class="reported-routes__record-btn-show-full button-small button-small--toggle-view"><!--TOGGLE HIDDEN-->
