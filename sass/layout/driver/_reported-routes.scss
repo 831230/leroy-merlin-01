@@ -1,14 +1,17 @@
 .reported-routes {
     background-image: linear-gradient(
-    rgba(0, 0, 0, 0.3),
-    rgba(0, 0, 0, 0.3)), 
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.9)), 
     url(../images/bc.jpg);
     background-repeat: repeat;
 }
 
 .reported-routes .container {
     // background-color: $thirdly-color;
-    background-image: url(../images/bc.jpg);
+    background-image: linear-gradient(
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.7)), 
+    url(../images/bc.jpg);
     background-repeat: repeat;
     padding: 20px
 }
