@@ -9,7 +9,7 @@
         <label for="form-driver__route-start" class="form-driver__route-label">
           <span class="form-driver__title">Trasa&#58;</span>
           <div class="form-driver__input-space">
-            <input id="form-driver__route-start" type="text" class="form-driver__input" placeholder="Początek trasy" name="start"></div>
+            <input id="form-driver__route-start" type="text" class="form-driver__input" placeholder="Początek trasy" name="start" formDriverNewRoute></div>
         </label>
         <label for="form-driver__route-end" class="form-driver__route-label">
           <div class="form-driver__input-space">
@@ -184,5 +184,6 @@
     <!-- ==================END REPORT==================== -->
   </main>
   <script src="/js/register-driver.js"></script>
+  <script src="../controllers/utils.js" type="modules"></script>
 
 <%- include('footer') %>
