@@ -1,7 +1,19 @@
+.reported-routes {
+    background-image: linear-gradient(
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.3)), 
+    url(../images/bc.jpg);
+    background-repeat: repeat;
+}
+
 .reported-routes .container {
     // background-color: $thirdly-color;
     background-image: url(../images/bc.jpg);
     background-repeat: repeat;
     padding: 20px
+}
+
+.reported-routes__header {
+  margin-bottom: 15px;
 }
 

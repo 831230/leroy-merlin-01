@@ -23,3 +23,14 @@
   background-color: transparentize($color: $thirdly-color, $amount: 0.3);
   transition: all 1000ms;
 }
+
+@media screen and (min-width: 768px) {
+  .form-driver {
+    @include box768;
+    text-align: left;
+    width: 500px;
+  }
+  .form-driver__locality-place-textarea {
+    height: 100px;
+  }
+}

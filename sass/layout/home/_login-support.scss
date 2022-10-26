@@ -21,9 +21,15 @@
   color: $secondary-color;
   letter-spacing: 1.8px;
   background-color: transparentize($color: $main-color, $amount: 0.1);
-
   &:hover,
   &:focus {
     border-radius: 2px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .login-support__space {
+    justify-content: space-between;
+    padding: 10px 30px;
   }
 }

@@ -10,7 +10,7 @@
   background-image: linear-gradient(
     rgba(47, 48, 58, 0.2),
     rgba(47, 48, 58, 0.2)),
-    url(../images/road_with_signpost_and_handshake480.jpg);
+    url(../images/hero/road_with_signpost_and_handshake480.jpg);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -24,9 +24,70 @@
     min-height: 320px;
     background-image: linear-gradient(rgba(47, 48, 58, 0.2),
         rgba(47, 48, 58, 0.2)),
-      url(../images/road_with_signpost_and_handshake960@2x.jpg);
+      url(../images/hero/road_with_signpost_and_handshake480@2x.jpg);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+  }
+}
+
+// -----------------------768-------------------------
+@media screen and (min-width: 768px) {
+  .hero .container {
+    padding: 50px 60px;
+    min-height: 450px;
+    background-image: linear-gradient(
+      rgba(47, 48, 58, 0.2),
+      rgba(47, 48, 58, 0.2)),
+      url(../images/hero/road_with_signpost_and_handshake768.jpg);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+  }
+  
+  @media (min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi),
+  (min-resolution: 2dppx) {
+    .hero .container {
+      padding: 50px 60px;
+      // min-height: 450px;
+      background-image: linear-gradient(rgba(47, 48, 58, 0.2),
+          rgba(47, 48, 58, 0.2)),
+        url(../images/hero/road_with_signpost_and_handshake768@2x.jpg);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+    }
+  }
+}
+
+
+// -----------------------1200-------------------------
+@media screen and (min-width: 1200px) {
+  .hero .container {
+    padding: 90px 90px;
+    min-height: 620px;
+    background-image: linear-gradient(
+      rgba(47, 48, 58, 0.2),
+      rgba(47, 48, 58, 0.2)),
+      url(../images/hero/road_with_signpost_and_handshake1200.jpg);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+  }
+  
+  @media (min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi),
+  (min-resolution: 2dppx) {
+    .hero .container {
+      padding: 90px 90px;
+      min-height: 620px;
+      background-image: linear-gradient(rgba(47, 48, 58, 0.2),
+          rgba(47, 48, 58, 0.2)),
+        url(../images/hero/road_with_signpost_and_handshake1200@2x.jpg);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+    }
   }
 }

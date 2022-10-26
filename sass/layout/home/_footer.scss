@@ -3,27 +3,83 @@
 }
 
 .footer .container {
-    padding: 30px;
-    min-height: 100px;
-    background-image: linear-gradient(
-        rgba(47, 48, 58, 0.7),
-        rgba(47, 48, 58, 0.7)),
-        url(../images/bc_them480.jpg);
-    background-repeat: no-repeat;
-    background-size: auto;
-    background-position: center;
+  padding: 30px;
+  min-height: 100px;
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.5),
+    rgba(2, 2, 2, 0.5)),
+    url(../images/footer/bc_them480.jpg);
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center;
 }
 
 @media (min-device-pixel-ratio: 2),
 (min-resolution: 192dpi),
 (min-resolution: 2dppx) {
+  .footer .container {
+    background-image: linear-gradient(
+      rgba(47, 48, 58, 0.5),
+      rgba(47, 48, 58, 0.5)),
+      url(../images/footer/bc_them480@2x.jpg);
+      background-repeat: no-repeat;
+      background-size: auto;
+      background-position: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .footer .container {
+    padding: 30px;
+    min-height: 100px;
+    background-image: linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(2, 2, 2, 0.5)),
+      url(../images/footer/bc_them768.jpg);
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+  }
+  
+  @media (min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi),
+  (min-resolution: 2dppx) {
     .footer .container {
-        background-image: linear-gradient(
-            rgba(47, 48, 58, 0.5),
-            rgba(47, 48, 58, 0.5)),
-            url(../images/bc_them960@2x.jpg);
+      background-image: linear-gradient(
+        rgba(47, 48, 58, 0.5),
+        rgba(47, 48, 58, 0.5)),
+        url(../images/footer/bc_them768@2x.jpg);
         background-repeat: no-repeat;
         background-size: auto;
         background-position: center;
     }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .footer .container {
+    padding: 30px;
+    min-height: 100px;
+    background-image: linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(2, 2, 2, 0.5)),
+      url(../images/footer/bc_them1200.jpg);
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+  }
+  
+  @media (min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi),
+  (min-resolution: 2dppx) {
+    .footer .container {
+      background-image: linear-gradient(
+        rgba(47, 48, 58, 0.5),
+        rgba(47, 48, 58, 0.5)),
+        url(../images/footer/bc_them1200@2x.jpg);
+        background-repeat: no-repeat;
+        background-size: auto;
+        background-position: center;
+    }
+  }
 }

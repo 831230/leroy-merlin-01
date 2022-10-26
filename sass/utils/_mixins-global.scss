@@ -2,7 +2,6 @@
   margin: 0 auto;
   padding: 30px 20px;
   text-align: center;
-
   border: 1px solid rgb(67, 85, 112);
   border-radius: 8px;
   max-width: 400px;
@@ -12,19 +11,62 @@
   -moz-box-shadow: 2px 5px 16px -6px rgba(66, 68, 90, 1);
   box-shadow: 2px 5px 16px -6px rgba(66, 68, 90, 1);
   transition: all 500ms;
-
-  &:hover,
-  &:focus {
-    -webkit-box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
-    -moz-box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
-    box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
+    &:hover,
+    &:focus {
+      -webkit-box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
+      -moz-box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
+      box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
   }
+}
+@mixin box768 {
+  margin: 0 auto;
+  padding: 30px 30px;
+  text-align: center;
+  border: 1px solid rgb(67, 85, 112);
+  border-radius: 8px;
+  max-width: 600px;
+  // background-color: $main-color;
+  background-color: transparentize($color: $main-color, $amount: 0.1);
+  -webkit-box-shadow: 2px 5px 16px -6px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 2px 5px 16px -6px rgba(66, 68, 90, 1);
+  box-shadow: 2px 5px 16px -6px rgba(66, 68, 90, 1);
+  transition: all 500ms;
+    &:hover,
+    &:focus {
+      -webkit-box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
+      -moz-box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
+      box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
+    }
+}
+@mixin box1200 {
+  margin: 30px auto;
+  padding: 20px 30px;
+  text-align: center;
+  border: 1px solid rgb(67, 85, 112);
+  border-radius: 8px;
+  max-width: 800px;
+  // background-color: $main-color;
+  background-color: transparentize($color: $main-color, $amount: 0.1);
+  -webkit-box-shadow: 2px 5px 16px -6px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 2px 5px 16px -6px rgba(66, 68, 90, 1);
+  box-shadow: 2px 5px 16px -6px rgba(66, 68, 90, 1);
+  transition: all 500ms;
+    &:hover,
+    &:focus {
+      -webkit-box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
+      -moz-box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
+      box-shadow: 2px 5px 16px -6px rgb(111, 162, 221);
+    }
 }
 
 @mixin headers-h3 {
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+@mixin headers-h3-768 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 2;
 }
 
 @mixin shadow-grey {
@@ -84,7 +126,6 @@
   font-weight: 500;
   background-color: $color-bc-forms;
   transition: all 500ms;
-
   &:hover,
   &:focus {
     border: 1px solid $fourthly-color;
@@ -98,7 +139,6 @@
   max-width: 250px;
   border-radius: 8px;
   transition: all 500ms;
-
   &:hover,
   &:focus {
     -webkit-box-shadow: 2px 5px 16px -6px rgb(255, 255, 255);
@@ -106,17 +146,51 @@
     box-shadow: 2px 5px 16px -6px rgb(255, 255, 255);
   }
 }
-
+@mixin forms-input-space768 {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  width: 400px;
+  height: 20px;
+  border-radius: 8px;
+  transition: all 500ms;
+  &:hover,
+  &:focus {
+    -webkit-box-shadow: 2px 5px 16px -6px rgb(255, 255, 255);
+    -moz-box-shadow: 2px 5px 16px -6px rgb(255, 255, 255);
+    box-shadow: 2px 5px 16px -6px rgb(255, 255, 255);
+  }
+}
 // ======================FORMS END==========================
 
 @mixin descriptions {
   letter-spacing: 1.5px;
-  font-weight: 500;
+  font-weight: 400;
   color: $color-font-theme2;
   line-height: 1.3;
 }
+@mixin descriptions768 {
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: 400;
+  color: $color-font-theme2;
+  line-height: 2;
+}
+@mixin descriptions1200 {
+  font-size: 18px;
+  letter-spacing: 2.3px;
+  font-weight: 400;
+  color: $color-font-theme2;
+  line-height: 2.5;
+}
 
 @mixin description-second {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  font-size: 14px;
+  color: $secondary-color;
+}
+@mixin description-second768 {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 600;

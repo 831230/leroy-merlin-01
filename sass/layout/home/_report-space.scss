@@ -1,8 +1,27 @@
+.report {
+  background-color: $thirdly-color;
+}
+
 .report .container {
   text-align: center;
   background-color: $main-color;
   padding: 20px;
   display: flex;
   flex-direction: column;
+  border-radius: 4px;
   // justify-content: space-around;
+}
+
+@media screen and (min-width: 768px) {
+  .report .container {
+    padding: 20px 40px;
+    padding-bottom: 30px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .report .container {
+    padding: 30px 100px;
+    padding-bottom: 40px;
+  }
 }

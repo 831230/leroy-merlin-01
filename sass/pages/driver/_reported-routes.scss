@@ -57,3 +57,33 @@
     color: $fourthly-color;
   }
 }
+
+@media screen and (min-width: 768px) {
+  .reported-routes__header {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  .reported-routes__item {
+    @include box768;
+    margin-bottom: 15px;
+    text-align: left;
+  }  
+
+  .reported-routes__record-item-description {
+    @include descriptions768;
+    line-height: 1.8;
+    padding-right: 20px;
+  }
+
+  .reported-routes__record-item-content {
+    margin-left: 20px;
+    @include description-second;
+  }
+
+  .description-third {
+    @include descriptions768;
+    line-height: 1.3;
+    margin-left: 120px;
+  }
+}

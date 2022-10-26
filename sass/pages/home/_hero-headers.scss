@@ -14,3 +14,31 @@
   margin-top: 70px;
   margin-left: 60px;
 }
+
+@media screen and (min-width: 768px) {
+  .hero__header {
+    letter-spacing: 5px;
+    font-size: 40px;
+  }
+
+  .hero__header-third {
+    margin-top: 90px;
+    margin-left: 70px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .hero__header {
+    letter-spacing: 10px;
+    font-size: 50px;
+  }
+
+  .hero__header-second {
+    margin-top: 90px;
+  }
+
+  .hero__header-third {
+    margin-top: 130px;
+    margin-left: 90px;
+  }
+}

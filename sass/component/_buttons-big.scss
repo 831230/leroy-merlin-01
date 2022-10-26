@@ -14,3 +14,52 @@
 .btn-big-title {
   @include btn-big-title;
 }
+
+@media screen and (min-width: 768px) {
+  // .button-big {
+  //   display: flex;
+  // }
+  .report__btn-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    letter-spacing: 3px;
+    margin: 5px 40px;
+    transition: all 500ms;
+    &::after,
+    &::before {
+      content: "";
+      display: block;
+      height: 1px;
+      width: 60px;
+      background-color: $main-color;
+    }
+    &:hover,
+    &:focus {
+      margin: 5px 120px;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .report__btn-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    letter-spacing: 3px;
+    margin: 5px 60px;
+    transition: all 500ms;
+    &::after,
+    &::before {
+      content: "";
+      display: block;
+      height: 1px;
+      width: 100px;
+      background-color: $main-color;
+    }
+    &:hover,
+    &:focus {
+      margin: 5px 120px;
+    }
+  }
+}

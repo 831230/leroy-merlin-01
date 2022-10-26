@@ -1,6 +1,19 @@
+.aboute {
+    // background-color: rgb(54, 66, 75);
+    background-image: linear-gradient(
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.9)), 
+    url(../images/bc.jpg);
+    background-repeat: repeat;
+
+}
+
 .aboute .container {
     // background-color: $thirdly-color;
-    background-image: url(../images/bc.jpg);
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0.7)), 
+        url(../images/bc.jpg);
     background-repeat: repeat;
     padding: 20px
 }
