@@ -22,3 +22,6 @@ rad.json
 TestResults.xml
 package-lock.json
 .node_modules/
+!/package-lock.json
+!/.idea/
+!/node_modules/
