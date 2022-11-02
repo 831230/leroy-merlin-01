@@ -7,7 +7,7 @@ const createMyRoute = (user_id, route_id, is_active, callback) => {
       console.log(error.message);
       callback(error.message);
     }
-    const successMessage = "Submited my route successfully.";
+    const successMessage = "Submitted my route successfully.";
     callback(successMessage);
   });
 };

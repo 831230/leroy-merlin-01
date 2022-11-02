@@ -11,7 +11,7 @@ const app = express();
 
 // Listen on port 8080 for connections
 app.listen(5555, () => {
-  console.log('Server started and listening at http://localhost:5555');
+    console.log('Server started and listening at http://localhost:5555');
 });
 
 // Set view engine and views directory
@@ -25,15 +25,16 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
-app.use (express.urlencoded ({extended: true}));
+app.use(express.urlencoded({extended: true}));
 
 //Set session
 app.use(session({
-  secret:'9464f72069a193f5f47dc7c8a9f679e60832c14ee7f04ecf15b69be4ef1d4f7e'
+    secret: '9464f72069a193f5f47dc7c8a9f679e60832c14ee7f04ecf15b69be4ef1d4f7e'
 // ,name:uuid.v4()
-,resave: false
-,name: "nasza sesja"
-,saveUninitialized:true}));
+    , resave: false
+    , name: "nasza sesja"
+    , saveUninitialized: true
+}));
 
 // app.use(session({
 //   secret: '9464f72069a193f5f47dc7c8a9f679e60832c14ee7f04ecf15b69be4ef1d4f7e',
@@ -45,4 +46,3 @@ app.use(session({
 // Application routes
 app.use(mainRoutes);
 
- 
