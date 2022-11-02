@@ -20,7 +20,6 @@ function login_post(request, response) {
 
   registeredUsersModel.verifyUser(login, password, (result) => {
     if (result.length > 0) {
-      console.log(`Jupiiii user.${result[0].user_id}`);
       request.session.login = login;
       request.session.loggedIn = true;
       request.session.userId = result[0].user_id;
@@ -61,7 +60,7 @@ function register_post(request, response) {
 }
 
 function driverRoutes_post(request, response) {
-  const user_id = 5,
+  const user_id = request.session.userId,
     start = request.body.start,
     end = request.body.end,
     data = request.body.dataRoute,
@@ -69,7 +68,7 @@ function driverRoutes_post(request, response) {
     departure_time_zone2 = request.body.departureTimeZone2,
     departure_time_zone3 = request.body.departureTimeZone3,
     places_in_car = request.body.placesInCar,
-    remaning_space_in_car = 4,
+    remaning_space_in_car = request.body.placesInCar,
     price_zone1 = request.body.priceZone1,
     price_zone2 = request.body.priceZone2,
     price_zone3 = request.body.priceZone3,

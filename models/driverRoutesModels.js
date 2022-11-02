@@ -18,7 +18,7 @@ const createRoute = (
   driver_comment,
   callback
 ) => {
-  const sql = `INSERT INTO driver_routes (user_id,start,end,data,departure_time_zone1,departure_time_zone2,departure_time_zone3,places_in_car,remaning_space_in_car,price_zone1,price_zone2,price_zone3,places_on_route,contact_to_driver,driver_comment) VALUES ('${user_id}', '${start}', '${end}', '${data}', '${departure_time_zone1}', '${departure_time_zone2}', '${departure_time_zone3}', '${places_in_car}', '${remaning_space_in_car}', '${price_zone1}', '${price_zone2}', '${price_zone3}', '${places_on_route}', '${contact_to_driver}', '${driver_comment}')`;
+  const sql = `INSERT INTO driver_routes (user_id,start,end,data,departure_time_zone1,departure_time_zone2,departure_time_zone3,places_in_car,remaning_space_in_car,price_zone1,price_zone2,price_zone3,places_on_route,contact_to_driver,driver_comment,insert_date) VALUES ('${user_id}', '${start}', '${end}', '${data}', '${departure_time_zone1}', '${departure_time_zone2}', '${departure_time_zone3}', '${places_in_car}', '${remaning_space_in_car}', '${price_zone1}', '${price_zone2}', '${price_zone3}', '${places_on_route}', '${contact_to_driver}', '${driver_comment}','${Date.now()}')`;
   database.appDatabase.run(sql, [], (error, row) => {
     if (error) {
       console.log(error.message);
@@ -40,7 +40,7 @@ const getRoutes = (user_id,callback) => {
 };
 
 const getMyRoutes = (user_id, callback) => {
-  const sql = `SELECT * FROM driver_routes WHERE user_id = ${user_id}`;
+  const sql = `SELECT * FROM driver_routes WHERE user_id = ${user_id} ORDER BY insert_date DESC`;
   database.appDatabase.all(sql, [], (error, rows) => {
     if (error) {
       console.error(error.message);

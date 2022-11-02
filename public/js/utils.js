@@ -19,7 +19,6 @@ class ChosenPlaceObject {
       (this.coordinatesLon = coordinatesLon);
   }
 }
-alert("dupa");
 searchBoxForm.addEventListener(
   "input",
   debounce(() => {

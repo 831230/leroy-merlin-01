@@ -111,9 +111,11 @@
             </ul>
             <!-- <button class="reported-routes__record-btn-join button-small visually-hidden"> TOGGLE HIDDEN
             </button> -->
+            <% if(userId!==route.user_id){ %> 
             <a class="reported-routes__record-btn-join button-small visually-hidden" href="/routes/join/<%= route.route_id %>">
               <span class="reported-routes__record-btn-title btn-small-title">Dołącz jako pasażer</span>
             </a>
+            <% } %> 
           </div>
           <div class="reported-routes__record-buttons-space">
             <button class="reported-routes__record-btn-show-full button-small button-small--toggle-view"><!--TOGGLE HIDDEN-->
