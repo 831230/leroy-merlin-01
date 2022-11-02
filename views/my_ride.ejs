@@ -1,11 +1,11 @@
-<%- include('header') %> 
+<%- include('header') %>
 
 <section class="login-support">
   <div class="container">
     <div class="login-support__space">
       <div class="login-support__welcome">
         <span class="login-support__hello">Witaj&#44; jesteś zalogowany jako&#58;</span>
-        <span class="login-support__login">tomasz.bielecki</span>
+        <span class="login-support__login"><%= user %>tomasz.bielecki</span>
       </div>
       <a href="/logout" class="login-support__btn"><span class="login-support__title">Wyloguj</span></a>
     </div>
@@ -132,4 +132,4 @@
 
 </main>
 <script src="./js/toggle-view-record.js"></script>
-<%- include('footer') %> 
+<%- include('footer') %>

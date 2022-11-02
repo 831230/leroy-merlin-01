@@ -2,7 +2,7 @@
 const express = require('express');
 const path = require('path');
 const mainRoutes = require('./routes/mainRoutes');
-const session = require('express-session')
+const session = require('express-session');
 const uuid = require('uuid');
 
 
@@ -13,6 +13,14 @@ const app = express();
 app.listen(5555, () => {
     console.log('Server started and listening at http://localhost:5555');
 });
+
+//Set session
+app.use(session({
+    secret: '9464f72069a193f5f47dc7c8a9f679e60832c14ee7f04ecf15b69be4ef1d4f7e'
+    , name: uuid.v4()
+    , resave: false
+    ,saveUninitialized: true
+}));
 
 // Set view engine and views directory
 app.set('view engine', 'ejs');
@@ -27,13 +35,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
 
-//Set session
-app.use(session({
-    secret: '9464f72069a193f5f47dc7c8a9f679e60832c14ee7f04ecf15b69be4ef1d4f7e'
-    , name: uuid.v4()
-    , resave: false
-    , saveUninitialized: true
-}));
+
+
 
 // app.use(session({
 //   secret: '9464f72069a193f5f47dc7c8a9f679e60832c14ee7f04ecf15b69be4ef1d4f7e',

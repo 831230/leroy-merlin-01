@@ -17,21 +17,14 @@ function main_index(request, response) {
 function login_post(request, response) {
   const login = request.body.login;
   const password = request.body.password;
-  // console.log(login+' '+password);
-  // response.redirect('/');
 
   registeredUsersModel.verifyUser(login, password, (result) => {
     if (result.length > 0) {
       console.log(`Jupiiii user.${result[0].user_id}`);
-      response.redirect("/home");
       request.session.login = login;
       request.session.loggedIn = true;
       request.session.userId = result[0].user_id;
-      console.log(result);
-      console.log(request.session);
-      //sessionstorage['loggedUser'] = login;
-      // let tempStorage=sessionstorage.getItem('loggedUser');
-      // console.log(tempStorage)
+      response.redirect("/home");
     } else {
       console.log("Brak");
       response.redirect("/");
