@@ -30,9 +30,8 @@ app.use(express.urlencoded({extended: true}));
 //Set session
 app.use(session({
     secret: '9464f72069a193f5f47dc7c8a9f679e60832c14ee7f04ecf15b69be4ef1d4f7e'
-// ,name:uuid.v4()
+    , name: uuid.v4()
     , resave: false
-    , name: "nasza sesja"
     , saveUninitialized: true
 }));
 
