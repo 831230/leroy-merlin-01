@@ -10,8 +10,7 @@
         <label for="form-driver__route-start" class="form-driver__route-label">
           <p class="form-driver__title">Trasa&#58;</p>
           <span class="form-driver__notice">Jeśli do wyszukiwania adresu potrzebujesz nazwy ulicy koniecznie wpisz ją przed miejscowością</span>
-          
-          <div class="form-driver__input-space form-driver__input-space--start-end">
+          <div class="form-driver__input-space js-add-class">
             <input id="form-driver__route-start" class="form-driver__input" list="form-driver__route-start-list" placeholder="Początek trasy" autocomplete="off" name="start" formDriverNewRoute>
             <span class="form-driver__route-start-choise-label"></span>
             <div class="form-driver__route-start-list"></div>
@@ -22,10 +21,8 @@
         </label>
         <!--------------------------------------------------------------------->
         <!-------------------------------END ROUTE----------------------------->
-        <label for="form-driver__route-start" class="form-driver__route-label">
-          <!-- <span class="form-driver__notice">Jeśli do wyszukiwania adresu potrzebujesz nazwy ulicy koniecznie wpisz ją przed miejscowością</span> -->
-          
-          <div class="form-driver__input-space form-driver__input-space--start-end">
+        <label for="form-driver__route-start" class="form-driver__route-label">          
+          <div class="form-driver__input-space js-add-class">
             <input id="form-driver__route-end" class="form-driver__input" list="form-driver__route-end-list" placeholder="Koniec trasy" autocomplete="off" name="end" formDriverNewRoute>
             <span class="form-driver__route-end-choise-label"></span>
             <div class="form-driver__route-end-list"></div>
@@ -216,10 +213,7 @@
   </main>
   <script src="/js/register-driver.js"></script>
   
-  <script src="https://cdn.jsdelivr.net/npm/lodash.debounce@4.0.8/index.js" 
-    integrity="sha256-eLukxUXKuOUKah/SVw+FOlmqz5YPDl0mTBK7RvmqowI=" 
-    crossorigin="anonymous">
-  </script>
+  <script src="/js/loadash.debounce.min.js" ></script>
 
   <script type="module" src="/js/utils.js" ></script>
 

@@ -1,4 +1,4 @@
-// var debounce = require("lodash.debounce");
+// var debounce = require('lodash.debounce');
 
 const API_KEY = "5b3ce3597851110001cf62487acc6af265804ad99a403e145821be1a";
 const ANOTHER_PARAMS_API_URL =
@@ -12,7 +12,9 @@ const searchBoxForm = document.querySelector(".form-driver");
 // console.log(searchBoxForm.localityZone3.previousElementSibling);
 const coordinatesLatLonEnd = [];
 const coordinatesLatLonStart = [];
+let semafor=true;
 const noticeTitle = document.querySelector(".form-driver__notice");
+const jsAddClassToStartEndDiv = document.querySelectorAll(".js-add-class");
 //-------------------------------------------START VARIABLES------------------------------------------------
 // const searchResultsStart = document.getElementById("form-driver__route-start-list");
 const searchResultsStart = document.querySelector(".form-driver__route-start-list");
@@ -59,7 +61,7 @@ searchBoxForm.addEventListener(
 //------------------------------------------------------------------------------
 
 async function fetchOpenrouteAutocomplete(valueInputStart, valueInputEnd, eventForm){
-  console.log(eventForm);
+  console.log("Fuction: fetchOpenrouteAutocomplete: display event.");
   try {
     // if (valueInputStart.length<=2) {
     //   return
@@ -68,7 +70,7 @@ async function fetchOpenrouteAutocomplete(valueInputStart, valueInputEnd, eventF
       api_key: API_KEY,
       text: valueInputStart+valueInputEnd,
     });
-    if(eventForm.target.name === "start" || eventForm.target.name === "end"){
+    // if(eventForm.target.name === "start" && eventForm.target.name === "end"){
       let fetchUrl = OPENROUTE_API_URL_AUTOCOMPLETE + "?" + params + "&" + ANOTHER_PARAMS_API_URL;
       const response = await fetch(fetchUrl);
       const places = await response.json();
@@ -76,15 +78,14 @@ async function fetchOpenrouteAutocomplete(valueInputStart, valueInputEnd, eventF
       console.log(places.features);
       if(eventForm.target.id === "form-driver__route-start"){
         createResultsTagStart(places);
+        console.log("Create result START:");
       };
       if(eventForm.target.id === "form-driver__route-end"){
         createResultsTagEnd(places);
+        console.log("Create result END:");
       };
-    };
-    // if(searchBoxForm.start.value.length>0 && searchBoxForm.end.value.length>0){
-     searchBoxForm.addEventListener("click", handlingSearchedResults); 
-    
-    
+     searchBoxForm.addEventListener("click", handlingSearchedResults);
+     console.log("Handling results:");
   } catch (error) {
     console.log(error);
   }
@@ -101,7 +102,7 @@ function createResultsTagStart(places){
     ` 
   });
   searchResultsStart.innerHTML = resultTagsHTML;
-  console.log(searchResultsStart);
+  console.log("Function createResultsTagStart:");
 };
 function createResultsTagEnd(places){
   let resultTagsHTML = "";
@@ -113,29 +114,33 @@ function createResultsTagEnd(places){
     ` 
   });
   searchResultsEnd.innerHTML = resultTagsHTML;
-  console.log(searchResultsEnd);
+  console.log("Function createResultsTagEnd:");
 };
 //--------------------------------------------------------------------------------------
 
 function handlingSearchedResults(evt){
+  console.info("Function handlingSearchedResults: ");
   if (evt.target.className === "search-results-start__content-list"){
     let event = evt;
-    createOneResultTagStart(event);
+    return createOneResultTagStart(event);
   };
   if (evt.target.className === "search-results-end__content-list"){
     let event = evt;
-    createOneResultTagEnd(event);
+    return createOneResultTagEnd(event);
   };
   if(evt.target.className === "delete-my-choise-start"){
-    deleteMyAllChoiseStart()
+    return deleteMyAllChoiseStart();
   };
   if(evt.target.className === "delete-my-choise-end"){
-    deleteMyAllChoiseEnd()
+    
+    return deleteMyAllChoiseEnd();
   };
   // searchBoxForm.removeEventListener("click", handlingSearchedResults);
   // searchBoxForm.removeEventListener("input", fetchOpenrouteAutocomplete);
   let event = evt;
-  if(coordinatesLatLonStart.length === 2 && coordinatesLatLonEnd.length === 2){
+  console.debug("Coordinate start",coordinatesLatLonStart," END ",coordinatesLatLonEnd);
+  if(coordinatesLatLonStart.length === 2 && coordinatesLatLonEnd.length === 2 && semafor){
+    semafor=false;
     console.log("zaczynamy szukać trasy");
     fetchOpenrouteGetRoute(coordinatesLatLonStart, coordinatesLatLonEnd, event);
   };
@@ -145,21 +150,25 @@ function handlingSearchedResults(evt){
 
 //----------------------------CREATE ONE RESULT TAG START & END METHODS--------------------------------
 function createOneResultTagStart(event){
+  console.log("Function createOneResultTagStart: ");
   coordinatesLatLonStart.push(event.target.dataset.lat, event.target.dataset.lon);
   searchBoxForm.start.style.display="none";
   searchBoxForm.start.value = "";
   noticeTitle.style.display="none";
   searchResultsStart.innerHTML = "";
   choiceLabelStart.innerHTML = `<span class="search-results__content">${event.target.dataset.place} &#8194 <span class="delete-my-choise-start" style="cursor:pointer;">Usuń</span></span>`;
+  jsAddClassToStartEndDiv[0].classList.add("form-driver__input-space--start-end");
   return coordinatesLatLonStart
 };
 function createOneResultTagEnd(event){
+  console.log("Function createOneResultTagEnd: ");
   coordinatesLatLonEnd.push(event.target.dataset.lat, event.target.dataset.lon);
   searchBoxForm.end.style.display="none";
   searchBoxForm.end.value = "";
   noticeTitle.style.display="none";
   searchResultsEnd.innerHTML = "";
   choiceLabelEnd.innerHTML = `<span class="search-results__content">${event.target.dataset.place} &#8194 <span class="delete-my-choise-end" style="cursor:pointer;">Usuń</span></span>`;
+  jsAddClassToStartEndDiv[1].classList.add("form-driver__input-space--start-end");
   return coordinatesLatLonEnd
 };
 
@@ -170,6 +179,7 @@ function deleteMyAllChoiseStart(){
   searchBoxForm.start.value="";
   choiceLabelStart.innerHTML = "";
   coordinatesLatLonStart.splice(0,2);
+  jsAddClassToStartEndDiv[0].classList.remove("form-driver__input-space--start-end");
   searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="none";
   searchBoxForm.departureTimeZone2.parentNode.parentNode.style.display="none";
   searchBoxForm.departureTimeZone3.parentNode.parentNode.style.display="none";
@@ -179,6 +189,7 @@ function deleteMyAllChoiseStart(){
   placesOnRouteZone1DIV.parentNode.parentNode.style.display="none";
   placesOnRouteZone2DIV.parentNode.parentNode.style.display="none";
   placesOnRouteZone3DIV.parentNode.parentNode.style.display="none";
+  semafor=true;
 };
 function deleteMyAllChoiseEnd(){
   searchBoxForm.end.style.display="inline";
@@ -186,6 +197,7 @@ function deleteMyAllChoiseEnd(){
   searchBoxForm.end.value="";
   choiceLabelEnd.innerHTML = "";
   coordinatesLatLonEnd.splice(0,2);
+  jsAddClassToStartEndDiv[1].classList.remove("form-driver__input-space--start-end");
   searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="none";
   searchBoxForm.departureTimeZone2.parentNode.parentNode.style.display="none";
   searchBoxForm.departureTimeZone3.parentNode.parentNode.style.display="none";
@@ -195,6 +207,7 @@ function deleteMyAllChoiseEnd(){
   placesOnRouteZone1DIV.parentNode.parentNode.style.display="none";
   placesOnRouteZone2DIV.parentNode.parentNode.style.display="none";
   placesOnRouteZone3DIV.parentNode.parentNode.style.display="none";
+  semafor=true;
 };
 //-----------------------------------------------------------------------------------------------------
 
@@ -270,8 +283,4 @@ async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
     placesOnRouteZone1DIV.innerHTML = placesOnRouteMarkupZone1;
     placesOnRouteZone2DIV.innerHTML = placesOnRouteMarkupZone2;
     placesOnRouteZone3DIV.innerHTML = placesOnRouteMarkupZone3;
-    
-
 }
-//------------------------------------------------------------------------------------------------------
-
