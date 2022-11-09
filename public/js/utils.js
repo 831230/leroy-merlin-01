@@ -1,255 +1,277 @@
-// var debounce = require('lodash.debounce');
+// var debounce = require("lodash.debounce");
 
-const OPENROUTE_API_URL =
-  "https://api.openrouteservice.org/geocode/search/structured";
 const API_KEY = "5b3ce3597851110001cf62487acc6af265804ad99a403e145821be1a";
 const ANOTHER_PARAMS_API_URL =
   "focus.point.lon=19.846570115898984&focus.point.lat=50.10754511537663&boundary.country=PL";
+const OPENROUTE_API_URL_AUTOCOMPLETE = "https://api.openrouteservice.org/geocode/autocomplete";
+const OPENROUTE_API_URL_DIRECTIONS = "https://api.openrouteservice.org/v2/directions/driving-car";
+//?api_key=5b3ce3597851110001cf62487acc6af265804ad99a403e145821be1a&start=19.958665,50.082626&end=19.634936,50.132946
 const DEBOUNCE_DELAY = 1000;
 
- const searchBoxForm = document.querySelector(".form-driver");
-//const searchBoxForm = document.getElementById("form-driver__route-start")
-const contentBox = document.querySelector(".content");
+const searchBoxForm = document.querySelector(".form-driver");
+// console.log(searchBoxForm.localityZone3.previousElementSibling);
+const coordinatesLatLonEnd = [];
+const coordinatesLatLonStart = [];
+const noticeTitle = document.querySelector(".form-driver__notice");
+//-------------------------------------------START VARIABLES------------------------------------------------
+// const searchResultsStart = document.getElementById("form-driver__route-start-list");
+const searchResultsStart = document.querySelector(".form-driver__route-start-list");
+const choiceLabelStart = document.querySelector(".form-driver__route-start-choise-label");
+// const divStartSpace = document.querySelector(".form-driver__input-space");
+//-----------------------------------------------------------------------------------------------------------
 
-class ChosenPlaceObject {
-  constructor(label, region, coordinatesLat, coordinatesLon) {
-    (this.label = label),
-      (this.region = region),
-      (this.coordinatesLat = coordinatesLat),
-      (this.coordinatesLon = coordinatesLon);
-  }
-}
+//-------------------------------------------END VARIABLES------------------------------------------------
+const searchResultsEnd = document.querySelector(".form-driver__route-end-list");
+const choiceLabelEnd = document.querySelector(".form-driver__route-end-choise-label");
+// const divEndSpace = document.querySelector(".form-driver__input-space");
+//----------------------------------------------------------------------------------------------------------
+
+const placesOnRouteZone1DIV = document.querySelector(".form-driver__places-on-route-space-zone1");
+const placesOnRouteZone2DIV = document.querySelector(".form-driver__places-on-route-space-zone2");
+const placesOnRouteZone3DIV = document.querySelector(".form-driver__places-on-route-space-zone3");
+
+//---------------------ROUNDING METHOD--------------------------
+function roundingMethodToSecPlace(value){
+  let roundingValue = Number(Math.round(value + 'e+2') + 'e-2');
+  return roundingValue
+};
+//--------------------------------------------------------------
+
+// ---------------------------ROUTE STRART & END LISTENER---------------------------------
 searchBoxForm.addEventListener(
   "input",
-  debounce(() => {
-    let searchBoxTownValue = searchBoxForm.start.value.trim();
-    let searchBoxStreetValue = searchBoxForm.end.value.trim();
-    console.log(searchBoxTownValue, searchBoxStreetValue);
-    fetchOpenrouteNew(searchBoxTownValue, searchBoxStreetValue).then((cites) =>
-      console.log(cites.features[0].properties.label)
-    );
-  },DEBOUNCE_DELAY)
-);
+  debounce((e) => {
+    let eventForm = e;
+    // if (!searchBoxForm.start.value) {
+    //   return
+    // }
+    //-----------------values input------------------------------------
+    let searchBoxStartValue = searchBoxForm.start.value.trim();
+    let searchBoxEndValue = searchBoxForm.end.value.trim();
+    //------------------------------------------------------------------
 
-const fetchOpenrouteNew = async (town, address) => {
-  const params = new URLSearchParams({
-    api_key: API_KEY,
-    address: address,
-    locality: town,
-  });
-  let fetchUrl =
-    OPENROUTE_API_URL + "?" + params + "&" + ANOTHER_PARAMS_API_URL;
-  const response = await fetch(fetchUrl);
-  const cites = await response.json();
-  return cites;
+    // console.log(searchBoxStartValue, searchBoxEndValue);
+    
+    fetchOpenrouteAutocomplete(searchBoxStartValue,searchBoxEndValue,eventForm);
+    
+  }, DEBOUNCE_DELAY)
+);
+//------------------------------------------------------------------------------
+
+async function fetchOpenrouteAutocomplete(valueInputStart, valueInputEnd, eventForm){
+  console.log(eventForm);
+  try {
+    // if (valueInputStart.length<=2) {
+    //   return
+    // }
+    const params = new URLSearchParams({
+      api_key: API_KEY,
+      text: valueInputStart+valueInputEnd,
+    });
+    if(eventForm.target.name === "start" || eventForm.target.name === "end"){
+      let fetchUrl = OPENROUTE_API_URL_AUTOCOMPLETE + "?" + params + "&" + ANOTHER_PARAMS_API_URL;
+      const response = await fetch(fetchUrl);
+      const places = await response.json();
+
+      console.log(places.features);
+      if(eventForm.target.id === "form-driver__route-start"){
+        createResultsTagStart(places);
+      };
+      if(eventForm.target.id === "form-driver__route-end"){
+        createResultsTagEnd(places);
+      };
+    };
+    // if(searchBoxForm.start.value.length>0 && searchBoxForm.end.value.length>0){
+     searchBoxForm.addEventListener("click", handlingSearchedResults); 
+    
+    
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-function fetchOpenroute(town, address) {
-  const params = new URLSearchParams({
-    api_key: API_KEY,
-    address: address,
-    locality: town,
+//----------------------------CREATE TAGS START & END METHODS--------------------------------
+function createResultsTagStart(places){
+  let resultTagsHTML = "";
+  places.features.map((place)=>{
+    resultTagsHTML += `
+    <p class="search-results-start__content-list" data-place="&#8194;${place.properties.label}" data-lat="${place.geometry.coordinates[0]}" data-lon="${place.geometry.coordinates[1]}" style="cursor:pointer;">
+    &#187;&#8194;${place.properties.label}
+    </p>
+    ` 
   });
-  const chosenPlaceObjectList = [];
-  let fetchUrl =
-    OPENROUTE_API_URL + "?" + params + "&" + ANOTHER_PARAMS_API_URL;
-  console.log(fetchUrl);
-  fetch(fetchUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
+  searchResultsStart.innerHTML = resultTagsHTML;
+  console.log(searchResultsStart);
+};
+function createResultsTagEnd(places){
+  let resultTagsHTML = "";
+  places.features.map((place)=>{
+    resultTagsHTML += `
+    <p class="search-results-end__content-list" data-place="&#8194;${place.properties.label}" data-lat="${place.geometry.coordinates[0]}" data-lon="${place.geometry.coordinates[1]}" style="cursor:pointer;">
+    &#187;&#8194;${place.properties.label}
+    </p>
+    ` 
+  });
+  searchResultsEnd.innerHTML = resultTagsHTML;
+  console.log(searchResultsEnd);
+};
+//--------------------------------------------------------------------------------------
 
-      data.features.forEach((place) => {
-        const chosenPlaceObject = new ChosenPlaceObject(
-          place.properties.label,
-          place.properties.region,
-          place.geometry.coordinates[0],
-          place.geometry.coordinates[1]
-        );
-        chosenPlaceObjectList.push(chosenPlaceObject);
-      });
-      console.log(chosenPlaceObjectList);
-    })
-    .catch((error) => {
-      console.log(error);
+function handlingSearchedResults(evt){
+  if (evt.target.className === "search-results-start__content-list"){
+    let event = evt;
+    createOneResultTagStart(event);
+  };
+  if (evt.target.className === "search-results-end__content-list"){
+    let event = evt;
+    createOneResultTagEnd(event);
+  };
+  if(evt.target.className === "delete-my-choise-start"){
+    deleteMyAllChoiseStart()
+  };
+  if(evt.target.className === "delete-my-choise-end"){
+    deleteMyAllChoiseEnd()
+  };
+  // searchBoxForm.removeEventListener("click", handlingSearchedResults);
+  // searchBoxForm.removeEventListener("input", fetchOpenrouteAutocomplete);
+  let event = evt;
+  if(coordinatesLatLonStart.length === 2 && coordinatesLatLonEnd.length === 2){
+    console.log("zaczynamy szukać trasy");
+    fetchOpenrouteGetRoute(coordinatesLatLonStart, coordinatesLatLonEnd, event);
+  };
+
+  // console.log(coordinatesLatLonStart, coordinatesLatLonEnd);
+};
+
+//----------------------------CREATE ONE RESULT TAG START & END METHODS--------------------------------
+function createOneResultTagStart(event){
+  coordinatesLatLonStart.push(event.target.dataset.lat, event.target.dataset.lon);
+  searchBoxForm.start.style.display="none";
+  searchBoxForm.start.value = "";
+  noticeTitle.style.display="none";
+  searchResultsStart.innerHTML = "";
+  choiceLabelStart.innerHTML = `<span class="search-results__content">${event.target.dataset.place} &#8194 <span class="delete-my-choise-start" style="cursor:pointer;">Usuń</span></span>`;
+  return coordinatesLatLonStart
+};
+function createOneResultTagEnd(event){
+  coordinatesLatLonEnd.push(event.target.dataset.lat, event.target.dataset.lon);
+  searchBoxForm.end.style.display="none";
+  searchBoxForm.end.value = "";
+  noticeTitle.style.display="none";
+  searchResultsEnd.innerHTML = "";
+  choiceLabelEnd.innerHTML = `<span class="search-results__content">${event.target.dataset.place} &#8194 <span class="delete-my-choise-end" style="cursor:pointer;">Usuń</span></span>`;
+  return coordinatesLatLonEnd
+};
+
+//----------------------------DELETE ALL RESULT TAGS START & END METHODS-------------------------------
+function deleteMyAllChoiseStart(){
+  searchBoxForm.start.style.display="inline";
+  noticeTitle.style.display="inline";
+  searchBoxForm.start.value="";
+  choiceLabelStart.innerHTML = "";
+  coordinatesLatLonStart.splice(0,2);
+  searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="none";
+  searchBoxForm.departureTimeZone2.parentNode.parentNode.style.display="none";
+  searchBoxForm.departureTimeZone3.parentNode.parentNode.style.display="none";
+  searchBoxForm.priceZone1.parentNode.parentNode.style.display="none";
+  searchBoxForm.priceZone2.parentNode.parentNode.style.display="none";
+  searchBoxForm.priceZone3.parentNode.parentNode.style.display="none";
+  placesOnRouteZone1DIV.parentNode.parentNode.style.display="none";
+  placesOnRouteZone2DIV.parentNode.parentNode.style.display="none";
+  placesOnRouteZone3DIV.parentNode.parentNode.style.display="none";
+};
+function deleteMyAllChoiseEnd(){
+  searchBoxForm.end.style.display="inline";
+  noticeTitle.style.display="inline";
+  searchBoxForm.end.value="";
+  choiceLabelEnd.innerHTML = "";
+  coordinatesLatLonEnd.splice(0,2);
+  searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="none";
+  searchBoxForm.departureTimeZone2.parentNode.parentNode.style.display="none";
+  searchBoxForm.departureTimeZone3.parentNode.parentNode.style.display="none";
+  searchBoxForm.priceZone1.parentNode.parentNode.style.display="none";
+  searchBoxForm.priceZone2.parentNode.parentNode.style.display="none";
+  searchBoxForm.priceZone3.parentNode.parentNode.style.display="none";
+  placesOnRouteZone1DIV.parentNode.parentNode.style.display="none";
+  placesOnRouteZone2DIV.parentNode.parentNode.style.display="none";
+  placesOnRouteZone3DIV.parentNode.parentNode.style.display="none";
+};
+//-----------------------------------------------------------------------------------------------------
+
+
+//------------------------------------GET ROUTE BETWEEN TWO POINTS--------------------------------------
+async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
+  // console.log("we are inside fetchOpenrouteGetRoute");
+  // console.log(latLonStartArray,latLonEndArray);
+  const paramsTwo = new URLSearchParams({
+    api_key: API_KEY,
+    start: latLonStartArray,
+    end: latLonEndArray
+  });
+
+    let fetchUrlTwo = OPENROUTE_API_URL_DIRECTIONS + "?" + paramsTwo;
+    const response = await fetch(fetchUrlTwo);
+    const routeObj = await response.json();
+    console.log(routeObj);
+    let routeDistance = roundingMethodToSecPlace((routeObj.features[0].properties.segments[0].distance)/1000);
+    let routeDuration = roundingMethodToSecPlace((routeObj.features[0].properties.segments[0].duration)/60);
+    let placesOnRoute = routeObj.features[0].properties.segments[0].steps.map(place => {return place.name});
+    console.log("odległość: ", routeDistance);
+    console.log("czas dojazdu: ", routeDuration);
+    console.log("Miejsca na trasie: ", placesOnRoute);
+    if(routeDistance < 10){
+      searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="inline";
+      searchBoxForm.priceZone1.parentNode.parentNode.style.display="inline";
+      placesOnRouteZone1DIV.parentNode.parentNode.style.display="inline";
+    };
+    if(routeDistance >= 10 && routeDistance < 20){
+      searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="inline";
+      searchBoxForm.departureTimeZone2.parentNode.parentNode.style.display="inline";
+      searchBoxForm.priceZone1.parentNode.parentNode.style.display="inline";
+      searchBoxForm.priceZone2.parentNode.parentNode.style.display="inline";
+      placesOnRouteZone1DIV.parentNode.parentNode.style.display="inline";
+      placesOnRouteZone2DIV.parentNode.parentNode.style.display="inline";
+    };
+    if(routeDistance >= 20){
+      searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="inline";
+      searchBoxForm.departureTimeZone2.parentNode.parentNode.style.display="inline";
+      searchBoxForm.departureTimeZone3.parentNode.parentNode.style.display="inline";
+      searchBoxForm.priceZone1.parentNode.parentNode.style.display="inline";
+      searchBoxForm.priceZone2.parentNode.parentNode.style.display="inline";
+      searchBoxForm.priceZone3.parentNode.parentNode.style.display="inline";
+      placesOnRouteZone1DIV.parentNode.parentNode.style.display="inline";
+      placesOnRouteZone2DIV.parentNode.parentNode.style.display="inline";
+      placesOnRouteZone3DIV.parentNode.parentNode.style.display="inline";
+    };
+
+    let increasingRouteDistance = 0;
+    let placesOnRouteMarkupZone1 = "";
+    let placesOnRouteMarkupZone2 = "";
+    let placesOnRouteMarkupZone3 = "";
+    routeObj.features[0].properties.segments[0].steps.map(step => {
+      increasingRouteDistance += (step.distance)/1000;
+
+      if(increasingRouteDistance < 10){
+        if(step.name !== "-"){
+        placesOnRouteMarkupZone1 += `<span>${step.name}&#8194;&#10509;&#8194;</span>` 
+        }
+      };
+      if(increasingRouteDistance >= 10 && increasingRouteDistance < 20){
+        if(step.name !== "-"){
+          placesOnRouteMarkupZone2 += `<span>${step.name}&#8194;&#10509;&#8194;</span>`
+        }      
+      };
+      if(increasingRouteDistance >= 20){
+        if(step.name !== "-"){
+          placesOnRouteMarkupZone3 += `<span>${step.name}&#8194;&#10509;&#8194;</span>`
+        }
+      };
     });
-  return chosenPlaceObjectList;
+    placesOnRouteZone1DIV.innerHTML = placesOnRouteMarkupZone1;
+    placesOnRouteZone2DIV.innerHTML = placesOnRouteMarkupZone2;
+    placesOnRouteZone3DIV.innerHTML = placesOnRouteMarkupZone3;
+    
+
 }
+//------------------------------------------------------------------------------------------------------
 
-// const objJson =
-// {
-//   "geocoding": {
-//       "version": "0.2",
-//       "attribution": "https://openrouteservice.org/terms-of-service/#attribution-geocode",
-//       "query": {
-//           "parsed_text": {
-//               "city": "krzeszowice",
-//               "state": "Małopolskie"
-//           },
-//           "size": 10,
-//           "private": false,
-//           "boundary.country": [
-//               "POL"
-//           ],
-//           "lang": {
-//               "name": "Polish",
-//               "iso6391": "pl",
-//               "iso6393": "pol",
-//               "via": "header",
-//               "defaulted": false
-//           },
-//           "querySize": 20
-//       },
-//       "engine": {
-//           "name": "Pelias",
-//           "author": "Mapzen",
-//           "version": "1.0"
-//       },
-//       "timestamp": 1666429263978
-//   },
-//   "type": "FeatureCollection",
-//   "features": [
-//       {
-//           "type": "Feature",
-//           "geometry": {
-//               "type": "Point",
-//               "coordinates": [
-//                   19.633891,
-//                   50.137178
-//               ]
-//           },
-//           "properties": {
-//               "id": "101824889",
-//               "gid": "whosonfirst:locality:101824889",
-//               "layer": "locality",
-//               "source": "whosonfirst",
-//               "source_id": "101824889",
-//               "name": "Krzeszowice",
-//               "confidence": 1,
-//               "match_type": "exact",
-//               "accuracy": "centroid",
-//               "country": "Polska",
-//               "country_gid": "whosonfirst:country:85633723",
-//               "country_a": "POL",
-//               "region": "małopolskie",
-//               "region_gid": "whosonfirst:region:85687291",
-//               "region_a": "MA",
-//               "county": "Krakowski",
-//               "county_gid": "whosonfirst:county:102079541",
-//               "localadmin": "Gmina Krzeszowice",
-//               "localadmin_gid": "whosonfirst:localadmin:1125324029",
-//               "locality": "Krzeszowice",
-//               "locality_gid": "whosonfirst:locality:101824889",
-//               "continent": "Europa",
-//               "continent_gid": "whosonfirst:continent:102191581",
-//               "label": "Krzeszowice, MA, Polska",
-//               "addendum": {
-//                   "concordances": {
-//                       "gn:id": 3094490,
-//                       "gp:id": 24548729,
-//                       "pl-gugik:jpt_kod_je": "120606_4",
-//                       "qs_pg:id": 1043171,
-//                       "wd:id": "Q146509",
-//                       "wk:page": "Krzeszowice"
-//                   }
-//               }
-//           },
-//           "bbox": [
-//               19.591344703,
-//               50.127924294,
-//               19.670523209,
-//               50.164094178
-//           ]
-//       },
-//       {
-//           "type": "Feature",
-//           "geometry": {
-//               "type": "Point",
-//               "coordinates": [
-//                   19.633531,
-//                   50.096902
-//               ]
-//           },
-//           "properties": {
-//               "id": "1477865797",
-//               "gid": "whosonfirst:locality:1477865797",
-//               "layer": "locality",
-//               "source": "whosonfirst",
-//               "source_id": "1477865797",
-//               "name": "Krzeszowice Obszar Wiejski",
-//               "confidence": 1,
-//               "match_type": "exact",
-//               "accuracy": "centroid",
-//               "country": "Polska",
-//               "country_gid": "whosonfirst:country:85633723",
-//               "country_a": "POL",
-//               "region": "małopolskie",
-//               "region_gid": "whosonfirst:region:85687291",
-//               "region_a": "MA",
-//               "county": "Krakowski",
-//               "county_gid": "whosonfirst:county:102079541",
-//               "localadmin": "Gmina Krzeszowice",
-//               "localadmin_gid": "whosonfirst:localadmin:1125324029",
-//               "locality": "Krzeszowice Obszar Wiejski",
-//               "locality_gid": "whosonfirst:locality:1477865797",
-//               "continent": "Europa",
-//               "continent_gid": "whosonfirst:continent:102191581",
-//               "label": "Krzeszowice Obszar Wiejski, MA, Polska",
-//               "addendum": {
-//                   "concordances": {
-//                       "pl-gugik:jpt_kod_je": "120606_5"
-//                   }
-//               }
-//           },
-//           "bbox": [
-//               19.520387717,
-//               50.061769388,
-//               19.716678598,
-//               50.201964546
-//           ]
-//       }
-//   ],
-//   "bbox": [
-//       19.520387717,
-//       50.061769388,
-//       19.716678598,
-//       50.201964546
-//   ]
-// }
-
-//   const object = JSON.stringify(objJson);
-//   const object2 = JSON.parse(object);
-//   console.log(object2);
-//   console.log(object2.features);
-
-//   {
-//     "label": "Tadeusza Kościuszki, Krzeszowice, MA, Polska",
-//     "region": "małopolskie",
-//     "coordinatesLat": 19.634936,
-//     "coordinatesLon": 50.132946
-// }
-
-// let request = new XMLHttpRequest();
-
-// request.open('POST', "https://api.openrouteservice.org/v2/matrix/driving-car");
-
-// request.setRequestHeader('Accept', 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8');
-// request.setRequestHeader('Content-Type', 'application/json');
-// request.setRequestHeader('Authorization', '5b3ce3597851110001cf62487acc6af265804ad99a403e145821be1a');
-
-// request.onreadystatechange = function () {
-//   if (this.readyState === 4) {
-//     console.log('Status:', this.status);
-//     console.log('Headers:', this.getAllResponseHeaders());
-//     console.log('Body:', this.responseText);
-//   }
-// };
-
-// const body = '{"locations":[[19.634936,50.132946],[19.846570115898984,50.10754511537663]],"metrics":["distance"],"units":"km"}';
-
-// request.send(body);
