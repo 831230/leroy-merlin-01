@@ -20,4 +20,17 @@
     <link rel="stylesheet" href="/css/main.min.css">
   </head>
   <body>
+  <% if(user) { %> 
+    <section class="login-support">
+  <div class="container">
+    <div class="login-support__space">
+      <div class="login-support__welcome">
+        <span class="login-support__hello">Witaj&#44; jesteś zalogowany jako&#58;</span>
+        <span class="login-support__login"><%= user %></span>
+      </div>
+      <a href="/logout" class="login-support__btn"><span class="login-support__title">Wyloguj</span></a>
+    </div>
+  </div>
+</section>
+<% } %> 
 

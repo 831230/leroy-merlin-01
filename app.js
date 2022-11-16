@@ -26,24 +26,10 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// // Respond when a GET request is made to the index page
-// app.get('/', (request, response) => {
-//   response.send('Leroy Merlin start app');
-// });
-
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
 
-
-
-
-// app.use(session({
-//   secret: '9464f72069a193f5f47dc7c8a9f679e60832c14ee7f04ecf15b69be4ef1d4f7e',
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: { maxAge: 30000 }
-// }))
 
 // Application routes
 app.use(mainRoutes);

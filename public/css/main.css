@@ -347,8 +347,18 @@ button {
 .search-results-start__content-list,
 .search-results-end__content-list {
   margin: 15px 15px;
+  color: white;
+  font-weight: 300;
   letter-spacing: 1.5px;
   border-bottom: 1px solid rgba(255, 0, 0, 0.596);
+  transition: all 500ms;
+}
+
+.search-results-start__content-list:hover, .search-results-start__content-list:focus,
+.search-results-end__content-list:hover,
+.search-results-end__content-list:focus {
+  color: #78BE20;
+  border-bottom: 1px solid red;
 }
 
 .form-driver__places-on-route-space-zone1,

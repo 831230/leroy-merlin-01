@@ -36,9 +36,11 @@
 
   registerDriver.openDriverFormBtn.addEventListener("click", toggleDriverForm);
   registerDriver.closeDriverFormBtn.addEventListener("click", toggleDriverForm);
+  // registerDriver.openDriverFormBtn.addEventListener("click", scrollIntoView);
 
   function toggleDriverForm() { 
     registerDriver.formDriverSection.classList.toggle("is-hidden");
     registerDriver.backdropOnSection.classList.toggle("backdrop");
+    registerDriver.backdropOnSection.scrollIntoView({behavior: "smooth"});
   }
 })();

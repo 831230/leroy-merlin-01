@@ -1,4 +1,5 @@
 // var debounce = require('lodash.debounce');
+// import Notiflix from 'notiflix';
 
 const API_KEY = "5b3ce3597851110001cf62487acc6af265804ad99a403e145821be1a";
 const ANOTHER_PARAMS_API_URL =
@@ -9,6 +10,7 @@ const OPENROUTE_API_URL_DIRECTIONS = "https://api.openrouteservice.org/v2/direct
 const DEBOUNCE_DELAY = 1000;
 
 const searchBoxForm = document.querySelector(".form-driver");
+console.log(searchBoxForm.departureTimeZone3.value);
 // console.log(searchBoxForm.localityZone3.previousElementSibling);
 const coordinatesLatLonEnd = [];
 const coordinatesLatLonStart = [];
@@ -44,21 +46,97 @@ searchBoxForm.addEventListener(
   "input",
   debounce((e) => {
     let eventForm = e;
-    // if (!searchBoxForm.start.value) {
-    //   return
-    // }
+
     //-----------------values input------------------------------------
-    let searchBoxStartValue = searchBoxForm.start.value.trim();
-    let searchBoxEndValue = searchBoxForm.end.value.trim();
+    let searchBoxStartValue = validationStartInput(searchBoxForm.start.value);
+    let searchBoxEndValue = validationEndInput(searchBoxForm.end.value);
     //------------------------------------------------------------------
 
-    // console.log(searchBoxStartValue, searchBoxEndValue);
+    console.log(e);
+    if(e.target.name === "start" || e.target.name === "end"){
+      fetchOpenrouteAutocomplete(searchBoxStartValue,searchBoxEndValue,eventForm);
+    };
     
-    fetchOpenrouteAutocomplete(searchBoxStartValue,searchBoxEndValue,eventForm);
+    validationForm(eventForm, searchBoxForm.dataRoute, searchBoxForm.placesInCar, searchBoxForm.driverComment, searchBoxForm.contactToDriver);
     
   }, DEBOUNCE_DELAY)
 );
 //------------------------------------------------------------------------------
+
+// -------------------------------VALIDATION INPUTS-------------------------------------
+function validationStartInput(text){
+  let trimText = text.trim();
+  if(trimText.length<=30){
+    console.log(trimText);
+    searchBoxForm.start.value = trimText;
+    return trimText;
+  };
+  if(trimText.length>30){
+    Notiflix.Notify.warning("Maksymalna ilość znaków w tym polu wynosi 30", {timeout: 6000});
+    searchBoxForm.start.value = trimText.slice(0, 30);
+    console.log(trimText.slice(0, 30));
+    return trimText.slice(0 ,30);
+  };
+};
+function validationEndInput(text){
+  let trimText = text.trim();
+  if(trimText.length<=30){
+    console.log(trimText);
+    searchBoxForm.end.value = trimText;
+    return trimText;
+  };
+  if(trimText.length>30){
+    Notiflix.Notify.warning("Maksymalna ilość znaków w tym polu wynosi 30", {timeout: 6000});
+    searchBoxForm.end.value = trimText.slice(0, 30);
+    console.log(trimText.slice(0, 30));
+    return trimText.slice(0 ,30);
+  };
+};
+
+function validationForm(event, data, amountPlaces, comment, contact){
+  if(event.target.name === "dataRoute"){
+    const dateNow = new Date();
+    const selectedDate = new Date(data.value);
+    console.log(dateNow.getTime(), selectedDate.getTime());
+    if(dateNow >= selectedDate){
+      Notiflix.Notify.failure("Data przejazdu nie może odnosić się do przeszłości. Wybierz datę najwcześniej na godzinę w przód.", {timeout: 6000});
+      searchBoxForm.dataRoute.value = getPartOfDate(dateNow);
+    };
+  };
+
+  if(event.target.name === "placesInCar"){
+    console.log(amountPlaces.value);
+    let correctValue = Math.floor(amountPlaces.value.trim());
+    searchBoxForm.placesInCar.value = correctValue;
+    console.log(correctValue);
+    if(correctValue<0){
+      Notiflix.Notify.failure("Ilość pasażerów nie może być wartością ujemną", {timeout: 6000});
+      searchBoxForm.placesInCar.value = 0;
+    }
+    if(correctValue>8){
+      Notiflix.Notify.failure("Maksymalna ilość pasażerów wynosi 8", {timeout: 6000});
+      searchBoxForm.placesInCar.value = 0;
+    }
+  }
+
+  if(event.target.name === "driverComment"){
+    console.log("Komentarz: ", comment.value);
+    if(comment.value.length>500){
+      Notiflix.Notify.warning("Zbyt długa wiadomość, maksymalna ilość znaków wynosi 500", {timeout: 6000});
+      searchBoxForm.driverComment.value = comment.value.slice(0, 500);
+    }
+  };
+
+  if(event.target.name === "contactToDriver"){
+    console.log("Pole kontakt: ", contact.value);
+    if(contact.value.length>50){
+      Notiflix.Notify.warning("Maksymalna ilość znaków w tym polu wynosi 50", {timeout: 6000});
+      searchBoxForm.contactToDriver.value = contact.value.slice(0, 50);
+    }
+  }
+};
+//--------------------------------------------------------------------------------------
+
 
 async function fetchOpenrouteAutocomplete(valueInputStart, valueInputEnd, eventForm){
   console.log("Fuction: fetchOpenrouteAutocomplete: display event.");
@@ -76,6 +154,12 @@ async function fetchOpenrouteAutocomplete(valueInputStart, valueInputEnd, eventF
       const places = await response.json();
 
       console.log(places.features);
+      if(places.features.length===0){
+        Notiflix.Notify.warning("Nie znaleziono żadnych wyników", {timeout: 6000});
+        setTimeout(() => {
+          Notiflix.Notify.info("Pamiętaj, że jeśli używasz nazwy ulicy do wyszukiwania to musi ona być wpisana na początku", {timeout: 6000});
+        }, 2000);
+      }
       if(eventForm.target.id === "form-driver__route-start"){
         createResultsTagStart(places);
         console.log("Create result START:");
@@ -141,12 +225,49 @@ function handlingSearchedResults(evt){
   console.debug("Coordinate start",coordinatesLatLonStart," END ",coordinatesLatLonEnd);
   if(coordinatesLatLonStart.length === 2 && coordinatesLatLonEnd.length === 2 && semafor){
     semafor=false;
+    const dataRouteInputSpace = document.querySelector(".form-driver__input-space--data-route");
+    dataRouteInputSpace.innerHTML = `<input id="form-driver__data" type="datetime-local" class="form-driver__input" name="dataRoute" value="${getPartOfDate(new Date())}" min="${getPartOfDate(new Date())}">`
     console.log("zaczynamy szukać trasy");
     fetchOpenrouteGetRoute(coordinatesLatLonStart, coordinatesLatLonEnd, event);
   };
 
   // console.log(coordinatesLatLonStart, coordinatesLatLonEnd);
 };
+// function addLeadingZero(value) {
+//   const string = String(value);
+//   return string.padStart(2, '0');  
+// }
+function getPartOfDate(data){
+  console.log("obiekt daty");
+  let dayOfMonth = String(data.getDate());
+  dayOfMonth.padStart(2, '0');
+  // const dayOfWeek = data.getDay()+1;
+  let monthOfYear = String(data.getMonth()+1);
+  monthOfYear.padStart(2, '0');
+  let year = String(data.getFullYear());
+  year.padStart(2, '0');
+  let hours = String(data.getHours()+1);
+  hours.padStart(2, '0');
+  let minutes = String(data.getMinutes());
+  // if(minutes.length===1){
+  //   minutes="0"+minutes;
+  // };
+  // minutes.padStart(2, '0');
+  let seconds = String(data.getSeconds());
+  seconds.padStart(2, '0');
+  let milliseconds = String(data.getMilliseconds());
+  milliseconds.padStart(2, '0');
+  return `${year}-${monthOfYear}-${dayOfMonth}T${hours}:${minutes.padStart(2, '0')}`
+};
+
+function getHourAndMinutes(data){
+  let hours = String(data.getHours()+1);
+  // hours.padStart(2, '0');
+  let minutes = String(data.getMinutes());
+  // minutes.padStart(2, '0');
+  return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`
+}
+
 
 //----------------------------CREATE ONE RESULT TAG START & END METHODS--------------------------------
 function createOneResultTagStart(event){
@@ -189,6 +310,9 @@ function deleteMyAllChoiseStart(){
   placesOnRouteZone1DIV.parentNode.parentNode.style.display="none";
   placesOnRouteZone2DIV.parentNode.parentNode.style.display="none";
   placesOnRouteZone3DIV.parentNode.parentNode.style.display="none";
+  searchBoxForm.departureTimeZone1.value = "";
+  searchBoxForm.departureTimeZone2.value = "";
+  searchBoxForm.departureTimeZone3.value = "";
   semafor=true;
 };
 function deleteMyAllChoiseEnd(){
@@ -207,6 +331,9 @@ function deleteMyAllChoiseEnd(){
   placesOnRouteZone1DIV.parentNode.parentNode.style.display="none";
   placesOnRouteZone2DIV.parentNode.parentNode.style.display="none";
   placesOnRouteZone3DIV.parentNode.parentNode.style.display="none";
+  searchBoxForm.departureTimeZone1.value = "";
+  searchBoxForm.departureTimeZone2.value = "";
+  searchBoxForm.departureTimeZone3.value = "";
   semafor=true;
 };
 //-----------------------------------------------------------------------------------------------------
@@ -214,18 +341,19 @@ function deleteMyAllChoiseEnd(){
 
 //------------------------------------GET ROUTE BETWEEN TWO POINTS--------------------------------------
 async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
-  // console.log("we are inside fetchOpenrouteGetRoute");
-  // console.log(latLonStartArray,latLonEndArray);
-  const paramsTwo = new URLSearchParams({
-    api_key: API_KEY,
-    start: latLonStartArray,
-    end: latLonEndArray
-  });
+  try {
+    // console.log("we are inside fetchOpenrouteGetRoute");
+    // console.log(latLonStartArray,latLonEndArray);
+    const paramsTwo = new URLSearchParams({
+      api_key: API_KEY,
+      start: latLonStartArray,
+      end: latLonEndArray
+    });
 
     let fetchUrlTwo = OPENROUTE_API_URL_DIRECTIONS + "?" + paramsTwo;
     const response = await fetch(fetchUrlTwo);
     const routeObj = await response.json();
-    console.log(routeObj);
+    console.log("fetch no 2: ",routeObj);
     let routeDistance = roundingMethodToSecPlace((routeObj.features[0].properties.segments[0].distance)/1000);
     let routeDuration = roundingMethodToSecPlace((routeObj.features[0].properties.segments[0].duration)/60);
     let placesOnRoute = routeObj.features[0].properties.segments[0].steps.map(place => {return place.name});
@@ -236,6 +364,7 @@ async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
       searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="inline";
       searchBoxForm.priceZone1.parentNode.parentNode.style.display="inline";
       placesOnRouteZone1DIV.parentNode.parentNode.style.display="inline";
+      searchBoxForm.departureTimeZone1.value = getHourAndMinutes(new Date());
     };
     if(routeDistance >= 10 && routeDistance < 20){
       searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="inline";
@@ -244,6 +373,7 @@ async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
       searchBoxForm.priceZone2.parentNode.parentNode.style.display="inline";
       placesOnRouteZone1DIV.parentNode.parentNode.style.display="inline";
       placesOnRouteZone2DIV.parentNode.parentNode.style.display="inline";
+      searchBoxForm.departureTimeZone2.value = getHourAndMinutes(new Date());
     };
     if(routeDistance >= 20){
       searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="inline";
@@ -255,6 +385,7 @@ async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
       placesOnRouteZone1DIV.parentNode.parentNode.style.display="inline";
       placesOnRouteZone2DIV.parentNode.parentNode.style.display="inline";
       placesOnRouteZone3DIV.parentNode.parentNode.style.display="inline";
+      searchBoxForm.departureTimeZone3.value = getHourAndMinutes(new Date());
     };
 
     let increasingRouteDistance = 0;
@@ -283,4 +414,8 @@ async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
     placesOnRouteZone1DIV.innerHTML = placesOnRouteMarkupZone1;
     placesOnRouteZone2DIV.innerHTML = placesOnRouteMarkupZone2;
     placesOnRouteZone3DIV.innerHTML = placesOnRouteMarkupZone3;
+  } catch (error) {
+    console.log(error);
+  }
+  
 }

@@ -1,19 +1,5 @@
 <%- include('header') %>
 
-<% if(user){ %>
-<section class="login-support">
-  <div class="container">
-    <div class="login-support__space">
-      <div class="login-support__welcome">
-        <span class="login-support__hello">Witaj&#44; jesteś zalogowany jako&#58;</span>
-        <span class="login-support__login"><%= user %>tomasz.bielecki</span>
-      </div>
-      <a href="/logout" class="login-support__btn"><span class="login-support__title">Wyloguj</span></a>
-    </div>
-  </div>
-</section>
-<% } %>
-
 <section class="go-back">
   <div class="container">
     <a href="./home" class="go-back__link">&#8810; Wstecz</a>
