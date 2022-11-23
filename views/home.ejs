@@ -11,7 +11,8 @@
           <p class="form-driver__title">Trasa&#58;</p>
           <span class="form-driver__notice">Jeśli do wyszukiwania adresu potrzebujesz nazwy ulicy koniecznie wpisz ją przed miejscowością</span>
           <div class="form-driver__input-space js-add-class">
-            <input id="form-driver__route-start" class="form-driver__input" list="form-driver__route-start-list" placeholder="Początek trasy" autocomplete="off" name="start" formDriverNewRoute>
+            <input id="form-driver__route-start" class="form-driver__input" list="form-driver__route-start-list" placeholder="Początek trasy" autocomplete="off" data-chosen_start="" name="start" formDriverNewRoute>
+            <input type="text" class="data-start-input" name="data_start" style="display: none;">
             <span class="form-driver__route-start-choise-label"></span>
             <div class="form-driver__route-start-list"></div>
             <!-- <datalist id="form-driver__route-start-list">
@@ -23,7 +24,8 @@
         <!-------------------------------END ROUTE----------------------------->
         <label for="form-driver__route-end" class="form-driver__route-label">          
           <div class="form-driver__input-space js-add-class">
-            <input id="form-driver__route-end" class="form-driver__input" list="form-driver__route-end-list" placeholder="Koniec trasy" autocomplete="off" name="end" formDriverNewRoute>
+            <input id="form-driver__route-end" class="form-driver__input" list="form-driver__route-end-list" placeholder="Koniec trasy" autocomplete="off" data-chosen_end="" name="end" formDriverNewRoute>
+            <input type="text" class="data-end-input" name="data_end" style="display: none;">
             <span class="form-driver__route-end-choise-label"></span>
             <div class="form-driver__route-end-list"></div>
             <!-- <datalist id="form-driver__route-end-list">
@@ -61,26 +63,26 @@
         <label for="form-driver__passengers" class="form-driver__passengers-label">
           <span class="form-driver__title">Ilość pasażerów&#58;</span>
           <div class="form-driver__input-space">
-            <input id="form-driver__passengers" type="number" class="form-driver__input" name="placesInCar" value="0" min="0" max="9" >
+            <input id="form-driver__passengers" type="number" class="form-driver__input" name="placesInCar" value="1" min="1" max="9" >
           </div>
         </label>
         <label for="form-driver__price-zone1" class="form-driver__price-label" style="display: none;">
           <p class="form-driver__title">Cena dla pasażera&#58;</p>
           <span class="form-driver__subtitle">Strefa 1&#58;</span>
           <div class="form-driver__input-space">
-            <input id="form-driver__price-zone1" type="text" value="3zł" class="form-driver__input" name="priceZone1">
+            <input id="form-driver__price-zone1" type="text" value="3zł" class="form-driver__input" name="priceZone1" readonly>
           </div>
         </label>
         <label for="form-driver__price-zone2" class="form-driver__price-label" style="display: none;">
           <span class="form-driver__subtitle">Strefa 2&#58;</span>
           <div class="form-driver__input-space">
-            <input id="form-driver__price-zone2" type="text" value="5zł" class="form-driver__input" name="priceZone2">
+            <input id="form-driver__price-zone2" type="text" value="5zł" class="form-driver__input" name="priceZone2" readonly>
           </div>
         </label>
         <label for="form-driver__price-zone3" class="form-driver__price-label" style="display: none;">
           <span class="form-driver__subtitle">Strefa 3&#58;</span>
           <div class="form-driver__input-space">  
-            <input id="form-driver__price-zone3" type="text" value="7zł" class="form-driver__input" name="priceZone3">
+            <input id="form-driver__price-zone3" type="text" value="7zł" class="form-driver__input" name="priceZone3" readonly>
           </div>
         </label>
             <!-- **********************EXAMPLE LOCALIZATION START********************** -->
@@ -117,7 +119,7 @@
             <div class="form-driver__input-space form-driver__input-space-zone3">
               <div class="form-driver__places-on-route-space-zone3"></div>
               <!-- <span class="form-driver__locality-content-zone3"></span> -->
-              <input id="form-driver__locality-number" type="number" class="form-driver__input" name="localityZone3" style="display: none;">
+              <input id="form-driver__locality-number" type="text" class="form-driver__input" name="localityZone3" style="display: none;">
             </div>
           </label>
         </div>
@@ -126,7 +128,7 @@
           <label for="form-driver__locality-comment" class="form-driver__locality-label">
             <span class="form-driver__title">Komentarz&#58;</span>
             <div class="form-driver__input-space">
-              <textarea id="form-driver__locality-comment" type="text" class="form-driver__input" placeholder="Jeśli nie podajesz adresu opisz miejsce spotkania" name="driverComment"></textarea>
+              <textarea id="form-driver__locality-comment" type="text" class="form-driver__input" placeholder="Możesz dodać komentarz. Jeśli Twoja trasa odbiega od tej wyznaczonej przez aplikację, opisz którędy pojedziesz" name="driverComment"></textarea>
             </div>
           </label>
         </div>

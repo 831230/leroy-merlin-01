@@ -75,8 +75,16 @@
                 </ul>
               </li>
               <li class="reported-routes__record-item reported-routes__record-item-towns">
-                <p class="reported-routes__record-item-description">Miejscowości na trasie przejazdu&#58;
-                  <span class="reported-routes__record-item-content"><%= route.places_on_route %></span>
+                <p class="reported-routes__record-item-description">Miejscowości na trasie przejazdu;
+
+                <p class="reported-routes__record-item-description">Strefa 1&#58;
+                  <span class="reported-routes__record-item-content"><%= route.places_on_route_zone1 %></span>
+                </p>
+                <p class="reported-routes__record-item-description">Strefa 2&#58;
+                  <span class="reported-routes__record-item-content"><%= route.places_on_route_zone2 %></span>
+                </p>
+                <p class="reported-routes__record-item-description">Strefa 3&#58;
+                  <span class="reported-routes__record-item-content"><%= route.places_on_route_zone3 %></span>
                 </p>
               </li>
               <li class="reported-routes__record-item reported-routes__record-item-contact">
@@ -91,9 +99,12 @@
               </li>
             </ul>
           </ul>
-          <button class="reported-routes__record-btn-join button-small visually-hidden"> <!--TOGGLE HIDDEN-->
+          <!-- <button class="reported-routes__record-btn-join button-small visually-hidden">
             <span class="reported-routes__record-btn-title btn-small-title">Usuń moją trasę</span>
-          </button>
+          </button> -->
+          <a class="reported-routes__record-btn-join button-small visually-hidden" href="/routes/delete/<%= route.route_id %>">
+            <span class="reported-routes__record-btn-title btn-small-title">Usuń moją trasę</span>
+          </a>
         </div>
         <div class="reported-routes__record-buttons-space">
           <button class="reported-routes__record-btn-show-full button-small button-small--toggle-view"><!--TOGGLE HIDDEN-->

@@ -1,17 +1,17 @@
 // var debounce = require('lodash.debounce');
 // import Notiflix from 'notiflix';
 
+
 const API_KEY = "5b3ce3597851110001cf62487acc6af265804ad99a403e145821be1a";
 const ANOTHER_PARAMS_API_URL =
   "focus.point.lon=19.846570115898984&focus.point.lat=50.10754511537663&boundary.country=PL";
 const OPENROUTE_API_URL_AUTOCOMPLETE = "https://api.openrouteservice.org/geocode/autocomplete";
 const OPENROUTE_API_URL_DIRECTIONS = "https://api.openrouteservice.org/v2/directions/driving-car";
-//?api_key=5b3ce3597851110001cf62487acc6af265804ad99a403e145821be1a&start=19.958665,50.082626&end=19.634936,50.132946
+
 const DEBOUNCE_DELAY = 1000;
 
 const searchBoxForm = document.querySelector(".form-driver");
-console.log(searchBoxForm.departureTimeZone3.value);
-// console.log(searchBoxForm.localityZone3.previousElementSibling);
+
 const coordinatesLatLonEnd = [];
 const coordinatesLatLonStart = [];
 let semafor=true;
@@ -273,19 +273,27 @@ function getHourAndMinutes(data){
 function createOneResultTagStart(event){
   console.log("Function createOneResultTagStart: ");
   coordinatesLatLonStart.push(event.target.dataset.lat, event.target.dataset.lon);
+  const dataStart = document.querySelector(".data-start-input");
+  dataStart.value = event.target.dataset.place.trim();
   searchBoxForm.start.style.display="none";
   searchBoxForm.start.value = "";
+  searchBoxForm.start.setAttribute("data-chosen_start", event.target.dataset.place.trim());
+  searchBoxForm.start.setAttribute("data-value", event.target.textContent.replace("»", "").trim());
   noticeTitle.style.display="none";
   searchResultsStart.innerHTML = "";
   choiceLabelStart.innerHTML = `<span class="search-results__content">${event.target.dataset.place} &#8194 <span class="delete-my-choise-start" style="cursor:pointer;">Usuń</span></span>`;
   jsAddClassToStartEndDiv[0].classList.add("form-driver__input-space--start-end");
+  console.log(searchBoxForm.start.dataset.chosen_start);
   return coordinatesLatLonStart
 };
 function createOneResultTagEnd(event){
   console.log("Function createOneResultTagEnd: ");
   coordinatesLatLonEnd.push(event.target.dataset.lat, event.target.dataset.lon);
+  const dataEnd = document.querySelector(".data-end-input");
+  dataEnd.value = event.target.dataset.place.trim();
   searchBoxForm.end.style.display="none";
   searchBoxForm.end.value = "";
+  searchBoxForm.end.setAttribute("data-chosen_end", event.target.dataset.place.trim());
   noticeTitle.style.display="none";
   searchResultsEnd.innerHTML = "";
   choiceLabelEnd.innerHTML = `<span class="search-results__content">${event.target.dataset.place} &#8194 <span class="delete-my-choise-end" style="cursor:pointer;">Usuń</span></span>`;
@@ -298,6 +306,7 @@ function deleteMyAllChoiseStart(){
   searchBoxForm.start.style.display="inline";
   noticeTitle.style.display="inline";
   searchBoxForm.start.value="";
+  searchBoxForm.start.setAttribute("data-chosen_start", "");
   choiceLabelStart.innerHTML = "";
   coordinatesLatLonStart.splice(0,2);
   jsAddClassToStartEndDiv[0].classList.remove("form-driver__input-space--start-end");
@@ -319,6 +328,7 @@ function deleteMyAllChoiseEnd(){
   searchBoxForm.end.style.display="inline";
   noticeTitle.style.display="inline";
   searchBoxForm.end.value="";
+  searchBoxForm.end.setAttribute("data-chosen_start", "");
   choiceLabelEnd.innerHTML = "";
   coordinatesLatLonEnd.splice(0,2);
   jsAddClassToStartEndDiv[1].classList.remove("form-driver__input-space--start-end");
@@ -392,28 +402,37 @@ async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
     let placesOnRouteMarkupZone1 = "";
     let placesOnRouteMarkupZone2 = "";
     let placesOnRouteMarkupZone3 = "";
+    let placesOnRouteMarkupZone1Input = "";
+    let placesOnRouteMarkupZone2Input = "";
+    let placesOnRouteMarkupZone3Input = "";
     routeObj.features[0].properties.segments[0].steps.map(step => {
       increasingRouteDistance += (step.distance)/1000;
 
       if(increasingRouteDistance < 10){
         if(step.name !== "-"){
-        placesOnRouteMarkupZone1 += `<span>${step.name}&#8194;&#10509;&#8194;</span>` 
+        placesOnRouteMarkupZone1 += `<span>${step.name}&#8194;&#10509;&#8194;</span>`;
+        placesOnRouteMarkupZone1Input += `${step.name} -> `;
         }
       };
       if(increasingRouteDistance >= 10 && increasingRouteDistance < 20){
         if(step.name !== "-"){
-          placesOnRouteMarkupZone2 += `<span>${step.name}&#8194;&#10509;&#8194;</span>`
+          placesOnRouteMarkupZone2 += `<span>${step.name}&#8194;&#10509;&#8194;</span>`;
+          placesOnRouteMarkupZone2Input += `${step.name} -> `;
         }      
       };
       if(increasingRouteDistance >= 20){
         if(step.name !== "-"){
-          placesOnRouteMarkupZone3 += `<span>${step.name}&#8194;&#10509;&#8194;</span>`
+          placesOnRouteMarkupZone3 += `<span>${step.name}&#8194;&#10509;&#8194;</span>`;
+          placesOnRouteMarkupZone3Input += `${step.name} -> `;
         }
       };
     });
     placesOnRouteZone1DIV.innerHTML = placesOnRouteMarkupZone1;
     placesOnRouteZone2DIV.innerHTML = placesOnRouteMarkupZone2;
     placesOnRouteZone3DIV.innerHTML = placesOnRouteMarkupZone3;
+    searchBoxForm.localityZone1.value = placesOnRouteMarkupZone1Input;
+    searchBoxForm.localityZone2.value = placesOnRouteMarkupZone2Input;
+    searchBoxForm.localityZone3.value = placesOnRouteMarkupZone3Input;
   } catch (error) {
     console.log(error);
   }

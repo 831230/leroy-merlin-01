@@ -68,9 +68,22 @@ function join_route_get(request, response) {
   }
 }
 
+function delete_route_get(request, response) {
+  const route_id = request.params.id;
+  if (request.session.loggedIn) {
+    driverRoutesModel.deleteRoute(route_id, () => {
+      console.log("Delete Route successfull!!!");
+      response.redirect("/home");
+    });
+  } else {
+    response.redirect("/");
+  }
+}
+
 module.exports = {
   routes_get,
   join_route_get,
   my_routes_get,
   my_ride_get,
+  delete_route_get
 };

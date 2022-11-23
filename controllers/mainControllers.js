@@ -63,8 +63,8 @@ function register_post(request, response) {
 function driverRoutes_post(request, response) {
   if (request.session.loggedIn) {
     const user_id = request.session.userId,
-      start = request.body.start,
-      end = request.body.end,
+      start = request.body.data_start,
+      end = request.body.data_end,
       data = request.body.dataRoute,
       departure_time_zone1 = request.body.departureTimeZone1,
       departure_time_zone2 = request.body.departureTimeZone2,
@@ -74,7 +74,9 @@ function driverRoutes_post(request, response) {
       price_zone1 = request.body.priceZone1,
       price_zone2 = request.body.priceZone2,
       price_zone3 = request.body.priceZone3,
-      places_on_route = request.body.placesOnRoute,
+      places_on_route_zone1 = request.body.localityZone1,
+      places_on_route_zone2 = request.body.localityZone2,
+      places_on_route_zone3 = request.body.localityZone3,
       contact_to_driver = request.body.contactToDriver,
       driver_comment = request.body.driverComment;
     driverRoutesModel.createRoute(
@@ -90,7 +92,9 @@ function driverRoutes_post(request, response) {
       price_zone1,
       price_zone2,
       price_zone3,
-      places_on_route,
+      places_on_route_zone1,
+      places_on_route_zone2,
+      places_on_route_zone3,
       contact_to_driver,
       driver_comment,
       (result) => {
