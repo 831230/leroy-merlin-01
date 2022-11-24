@@ -80,10 +80,23 @@ function delete_route_get(request, response) {
   }
 }
 
+function delete_my_ride_get(request, response) {
+  const route_id = request.params.id;
+  if (request.session.loggedIn) {
+    driverRoutesModel.deleteMyRide(route_id, () => {
+      console.log("Delete My Ride successfull!!!");
+      response.redirect("/home");
+    });
+  } else {
+    response.redirect("/");
+  }
+}
+
 module.exports = {
   routes_get,
   join_route_get,
   my_routes_get,
   my_ride_get,
-  delete_route_get
+  delete_route_get,
+  delete_my_ride_get
 };

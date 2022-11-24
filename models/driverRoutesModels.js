@@ -93,6 +93,16 @@ const takePlaceInCar = (route_id, callback) => {
   });
 };
 
+const deleteMyRide = (id, callback) => {
+  const sql = `UPDATE driver_routes SET is_active='N' WHERE route_id = ${id}`;
+  database.appDatabase.get(sql, [], (error, row) => {
+    if (error) {
+      callback(error.message);
+    }
+    callback(row);
+  });
+};
+
 // Export models
 module.exports = {
   createRoute,
@@ -101,5 +111,6 @@ module.exports = {
   takePlaceInCar,
   getMyRoutes,
   getMyRide,
-  deleteRoute
+  deleteRoute,
+  deleteMyRide
 };
