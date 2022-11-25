@@ -27,8 +27,9 @@ router.get('/routes', routeController.routes_get);
 router.get('/routes/join/:id', routeController.join_route_get);
 router.get('/routes/delete/:id', routeController.delete_route_get);
 router.get('/my_routes', routeController.my_routes_get);
-router.get('/my_ride', routeController.my_ride_get);
 router.get('/my_ride/delete/:id', routeController.delete_my_ride_get);
+router.get('/my_ride', routeController.my_ride_get);
+
 
 // Export router
 module.exports = router;

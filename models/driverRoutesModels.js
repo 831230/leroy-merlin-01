@@ -52,7 +52,7 @@ const getMyRoutes = (user_id, callback) => {
 };
 
 const getMyRide = (user_id, callback) => {
-  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0 AND route_id in (SELECT route_id FROM my_submited_routes WHERE user_id = ${user_id}) AND is_active='Y'`;
+  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0 AND route_id in (SELECT route_id FROM my_submited_routes WHERE user_id = ${user_id} AND is_active='Y')`;
   database.appDatabase.all(sql, [], (error, rows) => {
     if (error) {
       console.error(error.message);
