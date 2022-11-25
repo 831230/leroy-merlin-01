@@ -93,8 +93,19 @@ const takePlaceInCar = (route_id, callback) => {
   });
 };
 
+const addPlaceInCar = (route_id, callback) => {
+  let sql = `UPDATE driver_routes SET remaning_space_in_car = remaning_space_in_car+1 WHERE (route_id = ${route_id})`;
+  database.appDatabase.run(sql, [], (error, row) => {
+    if (error) {
+      callback(error.message);
+    }
+    const successMessage = "Take place successfully .";
+    callback(successMessage);
+  });
+};
+
 const deleteMyRide = (id, callback) => {
-  const sql = `UPDATE driver_routes SET is_active='N' WHERE route_id = ${id}`;
+  const sql = `UPDATE my_submited_routes SET is_active='N' WHERE route_id = ${id}`;
   database.appDatabase.get(sql, [], (error, row) => {
     if (error) {
       callback(error.message);
@@ -112,5 +123,6 @@ module.exports = {
   getMyRoutes,
   getMyRide,
   deleteRoute,
-  deleteMyRide
+  deleteMyRide,
+  addPlaceInCar
 };

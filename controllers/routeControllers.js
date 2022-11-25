@@ -85,7 +85,9 @@ function delete_my_ride_get(request, response) {
   if (request.session.loggedIn) {
     driverRoutesModel.deleteMyRide(route_id, () => {
       console.log("Delete My Ride successfull!!!");
-      response.redirect("/home");
+      driverRoutesModel.addPlaceInCar(route_id, () => {
+        response.redirect("/home");
+      });
     });
   } else {
     response.redirect("/");
