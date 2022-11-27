@@ -18,9 +18,10 @@ const createRoute = (
   places_on_route_zone3,
   contact_to_driver,
   driver_comment,
+  user_login,
   callback
 ) => {
-  const sql = `INSERT INTO driver_routes (user_id,start,end,data,departure_time_zone1,departure_time_zone2,departure_time_zone3,places_in_car,remaning_space_in_car,price_zone1,price_zone2,price_zone3,places_on_route_zone1,places_on_route_zone2,places_on_route_zone3,contact_to_driver,driver_comment,insert_date) VALUES ('${user_id}', '${start}', '${end}', '${data}', '${departure_time_zone1}', '${departure_time_zone2}', '${departure_time_zone3}', '${places_in_car}', '${remaning_space_in_car}', '${price_zone1}', '${price_zone2}', '${price_zone3}', '${places_on_route_zone1}', '${places_on_route_zone2}', '${places_on_route_zone3}', '${contact_to_driver}', '${driver_comment}','${Date.now()}')`;
+  const sql = `INSERT INTO driver_routes (user_id,user_login,start,end,data,departure_time_zone1,departure_time_zone2,departure_time_zone3,places_in_car,remaning_space_in_car,price_zone1,price_zone2,price_zone3,places_on_route_zone1,places_on_route_zone2,places_on_route_zone3,contact_to_driver,driver_comment,insert_date) VALUES ('${user_id}', '${user_login}', '${start}', '${end}', '${data}', '${departure_time_zone1}', '${departure_time_zone2}', '${departure_time_zone3}', '${places_in_car}', '${remaning_space_in_car}', '${price_zone1}', '${price_zone2}', '${price_zone3}', '${places_on_route_zone1}', '${places_on_route_zone2}', '${places_on_route_zone3}', '${contact_to_driver}', '${driver_comment}','${Date.now()}')`;
   database.appDatabase.run(sql, [], (error, row) => {
     if (error) {
       console.log(error.message);
@@ -32,7 +33,7 @@ const createRoute = (
 };
 
 const getRoutes = (user_id,callback) => {
-  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0 AND route_id not in (SELECT route_id FROM my_submited_routes WHERE user_id = ${user_id}) AND is_active='Y'`;
+  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0 AND route_id not in (SELECT route_id FROM my_submited_routes WHERE user_id = ${user_id} AND is_active='Y')`;
   database.appDatabase.all(sql, [], (error, rows) => {
     if (error) {
       console.error(error.message);
@@ -52,7 +53,7 @@ const getMyRoutes = (user_id, callback) => {
 };
 
 const getMyRide = (user_id, callback) => {
-  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0 AND route_id in (SELECT route_id FROM my_submited_routes WHERE user_id = ${user_id} AND is_active='Y')`;
+  const sql = `SELECT * FROM driver_routes WHERE is_active='Y' AND route_id in (SELECT route_id FROM my_submited_routes WHERE user_id = ${user_id} AND is_active='Y')`;
   database.appDatabase.all(sql, [], (error, rows) => {
     if (error) {
       console.error(error.message);

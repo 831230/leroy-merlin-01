@@ -166,11 +166,11 @@
       <div class="container">
         <p class="aboute__description">
           Aplikacja służy wspólnemu celowi jako podzielenie się kosztami
-          dotarcia do pracy i &#47;lub z powrotem
+          dotarcia do pracy i &#47; lub z powrotem
         </p>
         <p class="aboute__description-second">
           Wybierz czy chcesz zgłosić się jako kierowca czy skorzystać z
-          transportu jako pasażer. Lub po prostu przeglądaj swoje trasy.
+          transportu jako pasażer&#44; lub po prostu przeglądaj swoje trasy.
         </p>
       </div>
     </section>
@@ -179,27 +179,35 @@
     <!-- ==================REPORT==================== -->
     <section class="report">
       <div class="container">
-        <div class="report__driver"> 
+        <div class="report__driver report__driver-space"> 
+          <p class="report__driver-notice">Tutaj znajdziesz wszystkie zgłoszone trasy przez innych niż Ty użytkowników aplikacji. Jeśli chcesz zobaczyć trasy, które Ty dodałeś, przejź do zakładki &#187; TRASY ZGŁOSZONE PRZEZE MNIE &#171;
+          </p>
           <button class="button-big">
-            <a href="routes" class="btn-big-title report__btn-link">Lista wszystkich tras</a>
+            <a href="routes" class="btn-big-title report__btn-link">Trasy zgłoszone przez kierowców</a>
           </button>
         </div>
-        <div class="report__passenger">
+        <div class="report__passenger report__driver-space">
+          <p class="report__driver-notice">Tutaj znajdziesz wszystkie zgłoszone przez Ciebie trasy jako kierowca
+          </p>
           <button class="button-big">
             <a href="my_routes" class="btn-big-title report__btn-link"
             >trasy zgłoszone przeze mnie</a>
           </button>
         </div>
-        <div class="report__add-route">
+        <div class="report__add-route report__driver-space">
+          <p class="report__driver-notice">W tym miejscu możesz dodać swoją trasę, którą inni użytkownicy aplikacji zobaczą w zakładce &#187; TRASY ZGŁOSZONE PRZEZ KIEROWCÓW &#171;
+          </p>
           <button type="button" class="button-big" register-driver-open>
             <span class="btn-big-title report__btn-link"
-            >dodaj nową trasę</span>
+            >dodaj nową trasę jako kierowca</span>
           </button>
         </div>
-        <div class="report__passenger">
+        <div class="report__passenger report__driver-space">
+          <p class="report__driver-notice">W tym miejscu znajdziesz trasy do których dołączyłeś jako pasażer. Trasy te, nie wyświetlają się w Twojej zakładce &#187; TRASY ZGŁOSZONE PRZEZ KIEROWCÓW &#171;. Jeśli zrezygnujesz z uczestnictwa w danej trasie, z powrotem wyświetli się ona w zakładce &#187; TRASY ZGŁOSZONE PRZEZ KIEROWCÓW &#171;
+          </p>
           <button class="button-big">
             <a href="my_ride" class="btn-big-title report__btn-link"
-            >moje trasy jako pasażer</a>
+            >trasy do których dołączyłem jako pasażer</a>
           </button>
         </div>
       </div>

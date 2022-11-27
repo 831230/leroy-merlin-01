@@ -149,7 +149,7 @@ button {
     align-items: center;
     justify-content: space-between;
     letter-spacing: 3px;
-    margin: 5px 40px;
+    margin: 5px 30px;
     transition: all 500ms;
   }
   .report__btn-link::after, .report__btn-link::before {
@@ -158,9 +158,6 @@ button {
     height: 1px;
     width: 60px;
     background-color: #78BE20;
-  }
-  .report__btn-link:hover, .report__btn-link:focus {
-    margin: 5px 120px;
   }
 }
 
@@ -1123,6 +1120,15 @@ button {
   line-height: 1.5;
 }
 
+.report__driver-space {
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  padding: 5px;
+  margin-bottom: 25px;
+  background-color: rgba(0, 0, 0, 0.05);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+}
+
 .reported-routes__header {
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -1207,6 +1213,28 @@ button {
 
 .btn-small-title--toggle-view:hover, .btn-small-title--toggle-view:focus {
   color: red;
+}
+
+.route-add-login-space {
+  margin: auto;
+  padding: 10px;
+  margin-bottom: 15px;
+  max-width: 400px;
+  background-color: rgba(0, 0, 0, 0.1);
+  min-height: 40px;
+  color: #fafce7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.route-add-login {
+  font-weight: normal;
+  font-size: 12px;
 }
 
 @media screen and (min-width: 768px) {

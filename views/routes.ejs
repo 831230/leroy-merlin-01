@@ -26,102 +26,107 @@
       <h3 class="reported-routes__header">Wszystkie zgłoszone przejazdy&#58;</h3>
       <ul class="reported-routes__list">
         <% for (const route of routes) { %>
-        <li class="reported-routes__item">
-          <div class="reported-routes__record">
-            <ul class="reported-routes__record-list">
-              <li class="reported-routes__record-item reported-routes__record-item-route">
-                <p class="reported-routes__record-item-description">Trasa&#58;
-                  <span class="reported-routes__record-item-content reported-routes__record-item-content-start"><%= route.start %></span>
-                  <span class="reported-routes__record-item-content reported-routes__record-item-content-selector">&#8722;</span>
-                  <span class="reported-routes__record-item-content reported-routes__record-item-content-end"><%= route.end %></span>
-                </p>
-              </li>
-              <li class="reported-routes__record-item reported-routes__record-item-data">
-                <p class="reported-routes__record-item-description">Data przejazdu&#58;
-                  <span class="reported-routes__record-item-content"><%= route.data %></span>
-                </p>
-              </li>
-              <ul class="toggle-view-space visually-hidden"> <!--TOGGLE HIDDEN-->
-                <li class="reported-routes__record-item reported-routes__record-item-time">
-                  <p class="reported-routes__record-item-description">Godzina odjazdu&#58;</p>
-                  <ul class="reported-routes__record-time-list">
-                    <li class="reported-routes__record-time-list description-third">Strefa 1&#58;
-                      <span class="reported-routes__record-item-content"><%= route.departure_time_zone1 %></span>
-                    </li>
-                    <li class="reported-routes__record-time-list description-third">Strefa 2&#58;
-                      <span class="reported-routes__record-item-content"><%= route.departure_time_zone2 %></span>
-                    </li>
-                    <li class="reported-routes__record-time-list description-third">Strefa 3&#58;
-                      <span class="reported-routes__record-item-content"><%= route.departure_time_zone3 %></span>
-                    </li>
-                  </ul>    
-                </li>
-                <li class="reported-routes__record-item reported-routes__record-item-seats-in-car">
-                  <p class="reported-routes__record-item-description">Ilość miejsc w aucie&#58;
-                    <span class="reported-routes__record-item-content"><%= route.places_in_car %></span>
+          <% if(userId!==route.user_id){ %>
+          <li class="reported-routes__item">
+            <div class="route-add-login-space">
+              <h4 class="route-add-login">Trasę dodał&#58;&#8194;&#8213;&#8194;<%= route.user_login %>&#8194;&#8213;</h4>
+            </div>
+            <div class="reported-routes__record">
+              <ul class="reported-routes__record-list">
+                <li class="reported-routes__record-item reported-routes__record-item-route">
+                  <p class="reported-routes__record-item-description">Trasa&#58;
+                    <span class="reported-routes__record-item-content reported-routes__record-item-content-start"><%= route.start %></span>
+                    <span class="reported-routes__record-item-content reported-routes__record-item-content-selector">&#8722;</span>
+                    <span class="reported-routes__record-item-content reported-routes__record-item-content-end"><%= route.end %></span>
                   </p>
                 </li>
-                <li class="reported-routes__record-item reported-routes__record-item-free-seats-in-car">
-                  <p class="reported-routes__record-item-description">Pozostała ilość miejsc w aucie&#58;
-                    <span class="reported-routes__record-item-content"><%= route.remaning_space_in_car %></span>
+                <li class="reported-routes__record-item reported-routes__record-item-data">
+                  <p class="reported-routes__record-item-description">Data przejazdu&#58;
+                    <span class="reported-routes__record-item-content"><%= route.data %></span>
                   </p>
                 </li>
-                <li class="reported-routes__record-item reported-routes__record-item-price">
-                  <p class="reported-routes__record-item-description">Cena dla pasażera&#58;</p>
-                  <ul class="reported-routes__record-price-list">
-                    <li class="reported-routes__record-price-list description-third">Strefa 1&#58;
-                      <span class="reported-routes__record-item-content"><%= route.price_zone1 %></span>
-                    </li>
-                    <li class="reported-routes__record-price-list description-third">Strefa 2&#58;
-                      <span class="reported-routes__record-item-content"><%= route.price_zone2 %></span>
-                    </li>
-                    <li class="reported-routes__record-price-list description-third">Strefa 3&#58;
-                      <span class="reported-routes__record-item-content"><%= route.price_zone3 %></span>
-                    </li>
-                  </ul>
-                </li>
-                <li class="reported-routes__record-item reported-routes__record-item-towns">
-                  <p class="reported-routes__record-item-description">Miejscowości na trasie przejazdu;
-  
-                  <p class="reported-routes__record-item-description">Strefa 1&#58;
-                    <span class="reported-routes__record-item-content"><%= route.places_on_route_zone1 %></span>
-                  </p>
-                  <p class="reported-routes__record-item-description">Strefa 2&#58;
-                    <span class="reported-routes__record-item-content"><%= route.places_on_route_zone2 %></span>
-                  </p>
-                  <p class="reported-routes__record-item-description">Strefa 3&#58;
-                    <span class="reported-routes__record-item-content"><%= route.places_on_route_zone3 %></span>
-                  </p>
-                </li>
-                <li class="reported-routes__record-item reported-routes__record-item-contact">
-                  <p class="reported-routes__record-item-description">Kontakt do kierowcy&#58;
-                    <span class="reported-routes__record-item-content"><%= route.contact_to_driver %></span>
-                  </p>
-                </li>
-                <li class="reported-routes__record-item reported-routes__record-item-comment">
-                  <p class="reported-routes__record-item-description">Komentarz&#58;
-                    <span class="reported-routes__record-item-content"><%= route.driver_comment %></span>
-                  </p>
-                </li>
+                <ul class="toggle-view-space visually-hidden"> <!--TOGGLE HIDDEN-->
+                  <li class="reported-routes__record-item reported-routes__record-item-time">
+                    <p class="reported-routes__record-item-description">Godzina odjazdu&#58;</p>
+                    <ul class="reported-routes__record-time-list">
+                      <li class="reported-routes__record-time-list description-third">Strefa 1&#58;
+                        <span class="reported-routes__record-item-content"><%= route.departure_time_zone1 %></span>
+                      </li>
+                      <li class="reported-routes__record-time-list description-third">Strefa 2&#58;
+                        <span class="reported-routes__record-item-content"><%= route.departure_time_zone2 %></span>
+                      </li>
+                      <li class="reported-routes__record-time-list description-third">Strefa 3&#58;
+                        <span class="reported-routes__record-item-content"><%= route.departure_time_zone3 %></span>
+                      </li>
+                    </ul>    
+                  </li>
+                  <li class="reported-routes__record-item reported-routes__record-item-seats-in-car">
+                    <p class="reported-routes__record-item-description">Ilość miejsc w aucie&#58;
+                      <span class="reported-routes__record-item-content"><%= route.places_in_car %></span>
+                    </p>
+                  </li>
+                  <li class="reported-routes__record-item reported-routes__record-item-free-seats-in-car">
+                    <p class="reported-routes__record-item-description">Pozostała ilość miejsc w aucie&#58;
+                      <span class="reported-routes__record-item-content"><%= route.remaning_space_in_car %></span>
+                    </p>
+                  </li>
+                  <li class="reported-routes__record-item reported-routes__record-item-price">
+                    <p class="reported-routes__record-item-description">Cena dla pasażera&#58;</p>
+                    <ul class="reported-routes__record-price-list">
+                      <li class="reported-routes__record-price-list description-third">Strefa 1&#58;
+                        <span class="reported-routes__record-item-content"><%= route.price_zone1 %></span>
+                      </li>
+                      <li class="reported-routes__record-price-list description-third">Strefa 2&#58;
+                        <span class="reported-routes__record-item-content"><%= route.price_zone2 %></span>
+                      </li>
+                      <li class="reported-routes__record-price-list description-third">Strefa 3&#58;
+                        <span class="reported-routes__record-item-content"><%= route.price_zone3 %></span>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="reported-routes__record-item reported-routes__record-item-towns">
+                    <p class="reported-routes__record-item-description">Miejscowości na trasie przejazdu;
+    
+                    <p class="reported-routes__record-item-description">Strefa 1&#58;
+                      <span class="reported-routes__record-item-content"><%= route.places_on_route_zone1 %></span>
+                    </p>
+                    <p class="reported-routes__record-item-description">Strefa 2&#58;
+                      <span class="reported-routes__record-item-content"><%= route.places_on_route_zone2 %></span>
+                    </p>
+                    <p class="reported-routes__record-item-description">Strefa 3&#58;
+                      <span class="reported-routes__record-item-content"><%= route.places_on_route_zone3 %></span>
+                    </p>
+                  </li>
+                  <li class="reported-routes__record-item reported-routes__record-item-contact">
+                    <p class="reported-routes__record-item-description">Kontakt do kierowcy&#58;
+                      <span class="reported-routes__record-item-content"><%= route.contact_to_driver %></span>
+                    </p>
+                  </li>
+                  <li class="reported-routes__record-item reported-routes__record-item-comment">
+                    <p class="reported-routes__record-item-description">Komentarz&#58;
+                      <span class="reported-routes__record-item-content"><%= route.driver_comment %></span>
+                    </p>
+                  </li>
+                </ul>
               </ul>
-            </ul>
-            <!-- <button class="reported-routes__record-btn-join button-small visually-hidden"> TOGGLE HIDDEN
-            </button> -->
-            <% if(userId!==route.user_id){ %> 
-            <a class="reported-routes__record-btn-join button-small visually-hidden" href="/routes/join/<%= route.route_id %>">
-              <span class="reported-routes__record-btn-title btn-small-title">Dołącz jako pasażer</span>
-            </a>
-            <% } %> 
-          </div>
-          <div class="reported-routes__record-buttons-space">
-            <button class="reported-routes__record-btn-show-full button-small button-small--toggle-view"><!--TOGGLE HIDDEN-->
-              <span class="reported-routes__record-btn-title btn-small-title btn-small-title--toggle-view">pokaż &#47; ukryj szczegóły</span>
-            </button>
-            <button class="reported-routes__record-btn-hidden-full button-small button-small--toggle-view visually-hidden"><!--TOGGLE HIDDEN-->
-              <span class="reported-routes__record-btn-title btn-small-title btn-small-title--toggle-view">ukryj szczegóły &#8743;</span>
-            </button>
-          </div>
-        </li>
+              <!-- <button class="reported-routes__record-btn-join button-small visually-hidden"> TOGGLE HIDDEN
+              </button> -->
+
+              <a class="reported-routes__record-btn-join button-small visually-hidden" href="/routes/join/<%= route.route_id %>">
+                <span class="reported-routes__record-btn-title btn-small-title">Dołącz jako pasażer</span>
+              </a>
+              
+            </div>
+            <div class="reported-routes__record-buttons-space">
+              <button class="reported-routes__record-btn-show-full button-small button-small--toggle-view"><!--TOGGLE HIDDEN-->
+                <span class="reported-routes__record-btn-title btn-small-title btn-small-title--toggle-view">pokaż &#47; ukryj szczegóły</span>
+              </button>
+              <button class="reported-routes__record-btn-hidden-full button-small button-small--toggle-view visually-hidden"><!--TOGGLE HIDDEN-->
+                <span class="reported-routes__record-btn-title btn-small-title btn-small-title--toggle-view">ukryj szczegóły &#8743;</span>
+              </button>
+            </div>
+          </li>
+          <% } %> 
         <% } %>
       </ul>
     </div>

@@ -24,7 +24,7 @@
     align-items: center;
     justify-content: space-between;
     letter-spacing: 3px;
-    margin: 5px 40px;
+    margin: 5px 30px;
     transition: all 500ms;
     &::after,
     &::before {
@@ -34,10 +34,10 @@
       width: 60px;
       background-color: $main-color;
     }
-    &:hover,
-    &:focus {
-      margin: 5px 120px;
-    }
+    // &:hover,
+    // &:focus {
+    //   margin: 5px 120px;
+    // }
   }
 }
 

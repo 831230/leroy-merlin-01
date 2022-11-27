@@ -78,7 +78,8 @@ function driverRoutes_post(request, response) {
       places_on_route_zone2 = request.body.localityZone2,
       places_on_route_zone3 = request.body.localityZone3,
       contact_to_driver = request.body.contactToDriver,
-      driver_comment = request.body.driverComment;
+      driver_comment = request.body.driverComment,
+      user_login = request.session.login;
     driverRoutesModel.createRoute(
       user_id,
       start,
@@ -97,6 +98,7 @@ function driverRoutes_post(request, response) {
       places_on_route_zone3,
       contact_to_driver,
       driver_comment,
+      user_login,
       (result) => {
         console.log("Route added");
         response.redirect("/home");

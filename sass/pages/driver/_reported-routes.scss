@@ -1,3 +1,13 @@
+.report__driver-space {
+  border: 1px solid transparentize($color: $fourthly-color, $amount: 0.8);
+  padding: 5px;
+  margin-bottom: 25px;
+  background-color: transparentize($color: $thirdly-color, $amount: 0.95);
+  font-size: 12px;
+
+  letter-spacing: 1.5px;
+}
+
 .reported-routes__header {
   @include headers-h3;
   color: $secondary-color;
@@ -56,6 +66,27 @@
   &:focus {
     color: $fourthly-color;
   }
+}
+
+.route-add-login-space {
+  margin: auto;
+  padding: 10px;
+  margin-bottom: 15px;
+  max-width: 400px;
+  background-color: transparentize($color: $thirdly-color, $amount: 0.9);
+  min-height: 40px;
+  color: $color-font-theme2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 8px;
+  border: 1px solid transparentize($color: $thirdly-color, $amount: 0.9);
+}
+.route-add-login {
+  font-weight: normal;
+  font-size: 12px;
 }
 
 @media screen and (min-width: 768px) {
