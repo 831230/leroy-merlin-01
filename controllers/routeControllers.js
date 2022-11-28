@@ -82,8 +82,9 @@ function delete_route_get(request, response) {
 
 function delete_my_ride_get(request, response) {
   const route_id = request.params.id;
+  const user_id = request.session.userId;
   if (request.session.loggedIn) {
-    driverRoutesModel.deleteMyRide(route_id, () => {
+    driverRoutesModel.deleteMyRide(route_id, user_id, () => {
       console.log("Delete My Ride successfull!!!");
       driverRoutesModel.addPlaceInCar(route_id, () => {
         response.redirect("/home");

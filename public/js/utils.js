@@ -111,11 +111,11 @@ function validationForm(event, data, amountPlaces, comment, contact){
     console.log(correctValue);
     if(correctValue<0){
       Notiflix.Notify.failure("Ilość pasażerów nie może być wartością ujemną", {timeout: 6000});
-      searchBoxForm.placesInCar.value = 0;
+      searchBoxForm.placesInCar.value = 1;
     }
     if(correctValue>8){
       Notiflix.Notify.failure("Maksymalna ilość pasażerów wynosi 8", {timeout: 6000});
-      searchBoxForm.placesInCar.value = 0;
+      searchBoxForm.placesInCar.value = 1;
     }
   }
 
@@ -374,7 +374,8 @@ async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
       searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="inline";
       searchBoxForm.priceZone1.parentNode.parentNode.style.display="inline";
       placesOnRouteZone1DIV.parentNode.parentNode.style.display="inline";
-      searchBoxForm.departureTimeZone1.value = getHourAndMinutes(new Date());
+      // searchBoxForm.departureTimeZone1.value = getHourAndMinutes(new Date());
+      // searchBoxForm.departureTimeZone1.value = new Date(searchBoxForm.dataRoute.value);
     };
     if(routeDistance >= 10 && routeDistance < 20){
       searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="inline";
@@ -383,7 +384,8 @@ async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
       searchBoxForm.priceZone2.parentNode.parentNode.style.display="inline";
       placesOnRouteZone1DIV.parentNode.parentNode.style.display="inline";
       placesOnRouteZone2DIV.parentNode.parentNode.style.display="inline";
-      searchBoxForm.departureTimeZone2.value = getHourAndMinutes(new Date());
+      // searchBoxForm.departureTimeZone1.value = getHourAndMinutes(new Date());
+      // searchBoxForm.departureTimeZone1.value = new Date(searchBoxForm.dataRoute.value);
     };
     if(routeDistance >= 20){
       searchBoxForm.departureTimeZone1.parentNode.parentNode.style.display="inline";
@@ -395,7 +397,8 @@ async function fetchOpenrouteGetRoute(latLonStartArray, latLonEndArray, event){
       placesOnRouteZone1DIV.parentNode.parentNode.style.display="inline";
       placesOnRouteZone2DIV.parentNode.parentNode.style.display="inline";
       placesOnRouteZone3DIV.parentNode.parentNode.style.display="inline";
-      searchBoxForm.departureTimeZone3.value = getHourAndMinutes(new Date());
+      // searchBoxForm.departureTimeZone1.value = getHourAndMinutes(new Date());
+      // searchBoxForm.departureTimeZone1.value = new Date(searchBoxForm.dataRoute.value);
     };
 
     let increasingRouteDistance = 0;
