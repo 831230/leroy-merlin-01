@@ -7,7 +7,7 @@ function routes_get(request, response) {
   let dayOfMonth = String(dateNow.getDate());
   let monthOfYear = String(dateNow.getMonth()+1);
   let year = String(dateNow.getFullYear());
-  const dateNowString = `${year}-${monthOfYear}-${dayOfMonth}`;
+  const dateNowString = `${year}-${monthOfYear.padStart(2, '0')}-${dayOfMonth.padStart(2, '0')}`;
   console.log(dateNowString);
   console.log(request.session.userId);
   if (request.session.loggedIn) {
