@@ -32,8 +32,18 @@ const createRoute = (
   });
 };
 
-const getRoutes = (user_id,callback) => {
-  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0  AND is_active='Y' AND route_id not in (SELECT route_id FROM my_submited_routes WHERE user_id = ${user_id} AND is_active='Y')`;
+const getRoutes = (dateNow, user_id,callback) => {
+  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0  AND data >= '${dateNow}' AND user_id != '${user_id}' AND is_active='Y' AND route_id not in (SELECT route_id FROM my_submited_routes WHERE user_id = '${user_id}' AND is_active='Y')`;
+  database.appDatabase.all(sql, [], (error, rows) => {
+    if (error) {
+      console.error(error.message);
+    }
+    callback(rows);
+  });
+};
+
+const getRoutesFiltr = (data_start,data_end,user_id,callback) => {
+  const sql = `SELECT * FROM driver_routes WHERE remaning_space_in_car>0 AND data>'${data_start}' AND data<='${data_end}' AND user_id != '${user_id}' AND is_active='Y' AND route_id not in (SELECT route_id FROM my_submited_routes WHERE user_id = '${user_id}' AND is_active='Y')`;
   database.appDatabase.all(sql, [], (error, rows) => {
     if (error) {
       console.error(error.message);
@@ -119,6 +129,7 @@ const deleteMyRide = (route_id, user_id, callback) => {
 module.exports = {
   createRoute,
   getRoutes,
+  getRoutesFiltr,
   getRoute,
   takePlaceInCar,
   getMyRoutes,

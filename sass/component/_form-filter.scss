@@ -1,0 +1,46 @@
+.filters-space {
+  background-color: transparentize($color: $main-color, $amount: 0.4);
+  margin-bottom: 30px;
+  border-radius: 8px;
+  max-width: 400px;
+  padding: 10px 20px;
+}
+
+.filter-form {
+  text-align: center;
+}
+
+.filters-title {
+  @include forms-title;
+  margin-bottom: 10px;
+}
+
+.filters-input {
+  @include forms-input;
+  margin-bottom: 10px;
+  margin-right: 5px;
+  width: 130px;
+}
+
+.filter-button {
+  @include btn-basic-setup;
+  background-color: $main-color;
+  @include shadow-grey;
+  padding: 5px 0;
+  margin-right: 5px;
+  width: 110px;
+  color: $secondary-color;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 500;
+  &:hover,
+  &:focus {
+    @include shadow-white;
+    border-radius: 2px;
+  }
+}
+
+.reset-filters {
+  color: $secondary-color;
+}

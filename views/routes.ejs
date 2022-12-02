@@ -18,15 +18,31 @@
   </section>
   <!-- ===============================PASSANGER HEADER END===================================== -->
 
-  
 
 <!-- ===============================REPORTED ROUTES START===================================== -->
   <section class="reported-routes">
     <div class="container">
       <h3 class="reported-routes__header">Wszystkie zgłoszone przejazdy&#58;</h3>
+      <div class="filter-container">
+        <div class="filters-space">
+          <p class="filters-title">Wybierz zakres dat</p>
+          <form class="filter-form" action="/routes" method="post" >
+            <input class="filters-input" type="date" name="data_start">
+            <input class="filters-input" type="date" name="data_end">
+            <div class="filter-button-space">
+              <button class="filter-button" type="submit">szukaj</button>
+              <button class="filter-button reset-button">
+                <a href="/routes" method="get" class="reset-filters">Resetuj</a>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+
+
       <ul class="reported-routes__list">
         <% for (const route of routes) { %>
-          <% if(userId!==route.user_id){ %>
           <li class="reported-routes__item">
             <div class="route-add-login-space">
               <h4 class="route-add-login">Trasę dodał&#58;&#8194;&#8213;&#8194;<%= route.user_login %>&#8194;&#8213;</h4>
@@ -127,7 +143,6 @@
             </div>
           </li>
           <% } %> 
-        <% } %>
       </ul>
     </div>
   </section>

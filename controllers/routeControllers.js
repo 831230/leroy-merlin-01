@@ -3,9 +3,41 @@ const mySubmitedRoutesModel = require("../models/mySubmitedRoutesModels");
 // ============================================================================
 function routes_get(request, response) {
   response.locals.user = request.session.login;
+  const dateNow = new Date();
+  let dayOfMonth = String(dateNow.getDate());
+  let monthOfYear = String(dateNow.getMonth()+1);
+  let year = String(dateNow.getFullYear());
+  const dateNowString = `${year}-${monthOfYear}-${dayOfMonth}`;
+  console.log(dateNowString);
   console.log(request.session.userId);
   if (request.session.loggedIn) {
-    driverRoutesModel.getRoutes(request.session.userId, (queryResult) => {
+    driverRoutesModel.getRoutes(dateNowString, request.session.userId, (queryResult) => {
+      console.log(queryResult);
+      response.render("routes", {
+        routes: queryResult,
+        userId: request.session.userId,
+      });
+    });
+  } else {
+    response.redirect("/");
+  }
+}
+
+function routes_post(request, response) {
+  response.locals.user = request.session.login;
+
+  const data_start = request.body.data_start;
+  const data_end = new Date(request.body.data_end) ;
+  
+  let dayOfMonth = String(data_end.getDate()+1);
+  let monthOfYear = String(data_end.getMonth()+1);
+  let year = String(data_end.getFullYear());
+  const data_end_plus = `${year}-${monthOfYear}-${dayOfMonth}`;
+  
+  console.log(request.session.userId);
+  console.log(data_end_plus);
+  if (request.session.loggedIn) {
+    driverRoutesModel.getRoutesFiltr(data_start, data_end_plus, request.session.userId, (queryResult) => {
       console.log(queryResult);
       response.render("routes", {
         routes: queryResult,
@@ -97,6 +129,7 @@ function delete_my_ride_get(request, response) {
 
 module.exports = {
   routes_get,
+  routes_post,
   join_route_get,
   my_routes_get,
   my_ride_get,
