@@ -30,17 +30,30 @@
     formDriverSection: document.querySelector("[register-driver]"),
     closeDriverFormBtn: document.querySelector("[register-driver-close]"),
     openDriverFormBtn: document.querySelector("[register-driver-open]"),
-
     backdropOnSection: document.querySelector(".backdrop-temp"),
+  };
+
+  const messageBox = {
+    messageBoxSection: document.querySelector("[message-box]"),
+    closeMessageBoxBtn: document.querySelector("[message-box-close]"),
+    openMessageBoxBtn: document.querySelector("[message-box-open]"),
+    backdropMessageOnSection: document.querySelector(".backdrop-temp-message"),
   };
 
   registerDriver.openDriverFormBtn.addEventListener("click", toggleDriverForm);
   registerDriver.closeDriverFormBtn.addEventListener("click", toggleDriverForm);
-  // registerDriver.openDriverFormBtn.addEventListener("click", scrollIntoView);
+
+  messageBox.openMessageBoxBtn.addEventListener("click", toggleMessageBox);
+  messageBox.closeMessageBoxBtn.addEventListener("click", toggleMessageBox);
 
   function toggleDriverForm() { 
     registerDriver.formDriverSection.classList.toggle("is-hidden");
     registerDriver.backdropOnSection.classList.toggle("backdrop");
     registerDriver.backdropOnSection.scrollIntoView({behavior: "smooth"});
+  }
+
+  function toggleMessageBox(){
+    messageBox.messageBoxSection.classList.toggle("is-hidden");
+    messageBox.backdropMessageOnSection.classList.toggle("backdrop");
   }
 })();

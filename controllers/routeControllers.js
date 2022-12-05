@@ -1,5 +1,6 @@
 const driverRoutesModel = require("../models/driverRoutesModels");
 const mySubmitedRoutesModel = require("../models/mySubmitedRoutesModels");
+const messageBoxModels = require("../models/messageBoxModels");
 // ============================================================================
 function routes_get(request, response) {
   response.locals.user = request.session.login;
@@ -100,16 +101,44 @@ function join_route_get(request, response) {
   }
 }
 
+// ***************************************************************
+// function delete_route_get(request, response) {
+//   const route_id = request.params.id;
+//   if (request.session.loggedIn) {
+//     driverRoutesModel.deleteRoute(route_id, () => {
+//       console.log("Delete Route successfull!!!");
+//       response.redirect("/home");
+//     });
+//   } else {
+//     response.redirect("/");
+//   }
+// }
+// ***************************************************************
+
 function delete_route_get(request, response) {
   const route_id = request.params.id;
-  if (request.session.loggedIn) {
-    driverRoutesModel.deleteRoute(route_id, () => {
-      console.log("Delete Route successfull!!!");
-      response.redirect("/home");
-    });
-  } else {
-    response.redirect("/");
-  }
+  const user_id = request.session.userId;
+
+  messageBoxModels.routeData(route_id, (queryResult) => {
+    console.log(queryResult[0].start);
+    console.log(queryResult[0].end);
+    console.log(queryResult[0].data);
+    const deleted_route_start = queryResult[0].start;
+    const deleted_route_end = queryResult[0].end;
+    const deleted_route_date = queryResult[0].data;
+    if (request.session.loggedIn) {
+      messageBoxModels.saveNotice(route_id, user_id, deleted_route_start, deleted_route_end, deleted_route_date, () => {
+        console.log("Add data to message_box table");
+      });
+      driverRoutesModel.deleteRoute(route_id, () => {
+        console.log("Delete Route successfull!!!");
+        response.redirect("/home");
+      });
+      
+    } else {
+      response.redirect("/");
+    }
+  })
 }
 
 function delete_my_ride_get(request, response) {

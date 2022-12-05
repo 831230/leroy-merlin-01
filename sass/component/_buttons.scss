@@ -48,3 +48,48 @@
     color: $secondary-color;
   }
 }
+
+.message__button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-bottom-left-radius: 8px;
+  border: none;
+  background-color: transparentize($color: $main-color, $amount: 0.5);
+  @include shadow-grey;
+}
+
+.message__button-title {
+  color: $color-font-theme1;
+  letter-spacing: 1.5px;
+}
+
+// .message__button--alert {
+//   position: fixed;
+//   top: 45px;
+//   right: auto;
+//   border-bottom-left-radius: 8px;
+//   border-bottom-right-radius: 8px;
+//   border: none;
+//   background-color: transparentize($color: $fourthly-color, $amount: 0.1);
+// }
+
+// .message__button-title--alert {
+//   color: $secondary-color;
+//   letter-spacing: 1.7px;
+//   text-transform: uppercase;
+//   font-size: 12px;
+//   font-weight: 800;
+// }
+
+.read-confirm-link {
+  @include btn-basic-setup;
+  @include shadow-grey;
+  @include btn-big-title;
+  padding: 10px 5px;
+  font-size: 10px;
+  &:hover,
+  &:focus {
+    @include shadow-white;
+  }
+}

@@ -1,0 +1,17 @@
+.message {
+  max-width: 480px;
+  position: relative;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 768px) {
+  .message {
+    max-width: 768px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .message {
+    max-width: 1200px;
+  }
+}
