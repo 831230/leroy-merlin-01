@@ -2,7 +2,12 @@
 
 <section class="message">
   <button class="message__button message__button--alert" type="button" message-box-open>
-    <span class="message__button-title message__button-title--alert">Brak nowych wiadomości</span>
+    <% if(deletedRoutes.length>0) { %>
+      <span class="message__button-title--alert">Masz nowe wiadomości</span>
+    <% } %>
+    <% if(deletedRoutes.length==0) { %>
+        <span class="message__button-title">Brak nowych wiadomości</span>
+    <% } %>
   </button>
 </section>
 
@@ -11,17 +16,24 @@
     <div class="backdrop-temp-message">
       <div class="message-container">
         <button class="btn-close" type="button" message-box-close>x</button>
-        <div class="message__space">
-          <p class="message__title">Ważna wiadomość</p>
-          <p class="message__second-title">Trasa&#44; do której dołączyłeś jako pasażer została anulowana przez kierowcę&#46; Poniżej szczegóły usuniętej trasy&#46;</p>
-          <div class="message__description-space">
-            <p class="message__description-title">Początek trasy&#58;&#8194;<span class="message__description-content">Kraków</span></p>
-            <p class="message__description-title">Koniec trasy&#58;&#8194;<span class="message__description-content">Krzeszowice</span></p>
-            <p class="message__description-title">Data przejazdu&#58;&#8194;<span class="message__description-content">2022-11-30</span></p>
-          </div>
-          <p class="read-confirm-notice">Potwierdzenie odczytania wiadomości spowoduje&#44; że więcej jej nie zobaczysz&#46; Upewnij się&#44; że przeczytałeś i zrozumiałeś treść wiadomości zanim potwierdzisz jej odczyt poniższym linkiem</p>
-          <a href="home" class="read-confirm-link">Potwierdzam odczytanie wiadomości</a>
-        </div> 
+        <% if(deletedRoutes.length>0) { %>
+          <% for (const deletedRoute of deletedRoutes) { %>
+            <div class="message__space">
+              <p class="message__title">Ważna wiadomość</p>
+              <p class="message__second-title">Trasa&#44; do której dołączyłeś jako pasażer została anulowana przez kierowcę&#46; Poniżej szczegóły usuniętej trasy&#46;</p>
+              <div class="message__description-space">
+                <p class="message__description-title">Początek trasy&#58;&#8194;<span class="message__description-content"><%= deletedRoute.deleted_route_start %></span></p>
+                <p class="message__description-title">Koniec trasy&#58;&#8194;<span class="message__description-content"><%= deletedRoute.deleted_route_end %></span></p>
+                <p class="message__description-title">Data przejazdu&#58;&#8194;<span class="message__description-content"><%= deletedRoute.deleted_route_date %></span></p>
+              </div>
+              <p class="read-confirm-notice">Potwierdzenie odczytania wiadomości spowoduje&#44; że więcej jej nie zobaczysz&#46; Upewnij się&#44; że przeczytałeś i zrozumiałeś treść wiadomości zanim potwierdzisz jej odczyt poniższym linkiem</p>
+              <a href="/notice/delete/<%= deletedRoute.route_id %>" class="read-confirm-link">Potwierdzam odczytanie wiadomości</a>
+            </div> 
+          <% } %>
+        <% } %>
+        <% if(deletedRoutes.length==0) { %>
+          <p class="message__description-title">Brak nowych wiadomości</p>
+        <% } %>
       </div>
 
     </div>

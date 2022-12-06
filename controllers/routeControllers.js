@@ -130,6 +130,12 @@ function delete_route_get(request, response) {
       messageBoxModels.saveNotice(route_id, user_id, deleted_route_start, deleted_route_end, deleted_route_date, () => {
         console.log("Add data to message_box table");
       });
+      // messageBoxModels.saveNoticeStartEndData(route_id, user_id, deleted_route_start, deleted_route_end, deleted_route_date, () => {
+      //   console.log("Add data to my_submited_routes table");
+      // });
+      messageBoxModels.delationStatus(route_id, deleted_route_start, deleted_route_end, deleted_route_date, () => {
+        console.log("Add status -Y- to notification");
+      });
       driverRoutesModel.deleteRoute(route_id, () => {
         console.log("Delete Route successfull!!!");
         response.redirect("/home");
@@ -156,6 +162,19 @@ function delete_my_ride_get(request, response) {
   }
 }
 
+function delete_notice_get(request, response) {
+  const route_id = request.params.id;
+  const user_id = request.session.userId;
+  if (request.session.loggedIn) {
+    messageBoxModels.deleteMyNotice(route_id, user_id, () => {
+      console.log("Delete My Notice successfull!!!");
+      response.redirect("/home");
+    });
+  } else {
+    response.redirect("/");
+  }
+}
+
 module.exports = {
   routes_get,
   routes_post,
@@ -163,5 +182,6 @@ module.exports = {
   my_routes_get,
   my_ride_get,
   delete_route_get,
-  delete_my_ride_get
+  delete_my_ride_get,
+  delete_notice_get
 };
