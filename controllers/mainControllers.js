@@ -1,3 +1,8 @@
+var log4js = require("log4js");
+var logger = log4js.getLogger();
+logger.level = "debug";
+
+
 // Load modules
 const authorizedUsersModel = require("../models/authorizedUsersModels");
 const registeredUsersModel = require("../models/registeredUsersModels");
@@ -7,7 +12,7 @@ const driverRoutesModel = require("../models/driverRoutesModels");
 function main_index(request, response) {
   response.locals.user = request.session.login;
   authorizedUsersModel.getTasks((queryResult) => {
-    console.log(queryResult);
+    logger.info(queryResult);
     response.render("index", {
       authorized_users: queryResult,
       registered_users: queryResult,
@@ -26,7 +31,7 @@ function login_post(request, response) {
       request.session.userId = result[0].user_id;
       response.redirect("/home");
     } else {
-      console.log("Brak");
+      logger.error("No user....")
       response.redirect("/");
     }
   });
@@ -48,12 +53,12 @@ function register_post(request, response) {
           login,
           password,
           (result) => {
-            console.log("Registerd user.");
+            logger.info("Registerd user.");
             response.redirect("/");
           }
         );
       } else {
-        console.log("Brak");
+        logger.error("No permission");
         response.redirect("/");
       }
     }
@@ -105,14 +110,14 @@ function driverRoutes_post(request, response) {
       }
     );
   } else {
+    logger.error("No permission");
     response.redirect("/");
   }
 }
 
 function logout_get(request, response) {
-  console.log(request.session.login);
+  logger.info("Logout user: ",request.session.login)
   request.session.destroy((err) => {});
-  console.log("Po usuwaniu: " + request.session);
   response.redirect("/");
 }
 

@@ -125,6 +125,7 @@ const deleteMyRide = (route_id, user_id, callback) => {
   });
 };
 
+
 // Export models
 module.exports = {
   createRoute,

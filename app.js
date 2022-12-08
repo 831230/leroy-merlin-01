@@ -1,3 +1,7 @@
+var log4js = require("log4js");
+var logger = log4js.getLogger();
+logger.level = "debug";
+
 // Load modules
 const express = require('express');
 const path = require('path');
@@ -6,12 +10,13 @@ const session = require('express-session');
 const uuid = require('uuid');
 
 
+
 // Create express application
 const app = express();
 
 // Listen on port 8080 for connections
 app.listen(5555, () => {
-    console.log('Server started and listening at http://localhost:5555');
+    logger.info('Server started and listening at http://localhost:5555');
 });
 
 //Set session

@@ -1,7 +1,6 @@
 // var debounce = require('lodash.debounce');
 // import Notiflix from 'notiflix';
 
-
 const API_KEY = "5b3ce3597851110001cf62487acc6af265804ad99a403e145821be1a";
 const ANOTHER_PARAMS_API_URL =
   "focus.point.lon=19.846570115898984&focus.point.lat=50.10754511537663&boundary.country=PL";
@@ -11,6 +10,7 @@ const OPENROUTE_API_URL_DIRECTIONS = "https://api.openrouteservice.org/v2/direct
 const DEBOUNCE_DELAY = 1000;
 
 const searchBoxForm = document.querySelector(".form-driver");
+
 
 const coordinatesLatLonEnd = [];
 const coordinatesLatLonStart = [];
